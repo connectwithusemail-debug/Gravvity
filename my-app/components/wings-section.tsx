@@ -17,7 +17,7 @@ export function WingsSection() {
               key={wing.id}
               className="group relative p-8 rounded-2xl bg-card border border-border hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20"
             >
-              <div className="absolute -inset-0.5 bg-linear-to-r from-purple-500 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+              <div className="absolute -inset-0.5 bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
 
               <div className="relative z-10">
                 <div className="text-5xl mb-4">{wing.icon}</div>

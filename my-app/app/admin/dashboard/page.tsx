@@ -131,7 +131,7 @@ export default function AdminDashboard() {
                 {!editingMember && !isAddingNew && (
                   <button
                     onClick={() => setIsAddingNew(true)}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
                   >
                     <Plus size={20} />
                     Add New Member
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
                 {!editingEvent && !isAddingEvent && (
                   <button
                     onClick={() => setIsAddingEvent(true)}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
                   >
                     <Plus size={20} />
                     Add New Event
@@ -243,7 +243,7 @@ export default function AdminDashboard() {
                     >{showAllEvents ? "Hide" : "Show All"}</button>
                     <button
                       onClick={() => setIsAddingEvent(true)}
-                      className="px-3 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white text-sm font-medium"
+                      className="px-3 py-2 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white text-sm font-medium"
                     >Add Event</button>
                   </div>
                 </div>

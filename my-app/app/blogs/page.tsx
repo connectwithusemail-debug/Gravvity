@@ -72,7 +72,7 @@ export default function BlogsPage() {
             <p className="text-foreground/70 mb-6">
               Are you working on something interesting? Share your insights with the Gravity community!
             </p>
-            <button className="px-8 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all">
+            <button className="px-8 py-3 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all">
               Submit Article
             </button>
           </div>

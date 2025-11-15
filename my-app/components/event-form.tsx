@@ -149,7 +149,7 @@ export function EventForm({ event, onSubmit, onCancel }: EventFormProps) {
       <div className="flex gap-2 pt-4">
         <button
           type="submit"
-          className="flex-1 px-4 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+          className="flex-1 px-4 py-2 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
         >
           {event ? "Update" : "Add"} Event
         </button>

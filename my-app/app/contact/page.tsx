@@ -62,7 +62,7 @@ export default function ContactPage() {
             <div className="space-y-8 slide-in-up">
               <div className="card-glow p-6 hover:shadow-lg transition-all">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--brand-from)] to-[var(--brand-to)] flex items-center justify-center shrink-0">
                     <Mail size={24} className="text-white" />
                   </div>
                   <div>
@@ -74,7 +74,7 @@ export default function ContactPage() {
 
               <div className="card-glow p-6 hover:shadow-lg transition-all">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--brand-from)] to-[var(--brand-to)] flex items-center justify-center shrink-0">
                     <MapPin size={24} className="text-white" />
                   </div>
                   <div>
@@ -86,7 +86,7 @@ export default function ContactPage() {
 
               <div className="card-glow p-6 hover:shadow-lg transition-all">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--brand-from)] to-[var(--brand-to)] flex items-center justify-center shrink-0">
                     <MessageSquare size={24} className="text-white" />
                   </div>
                   <div>
@@ -141,7 +141,7 @@ export default function ContactPage() {
 
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all transform hover:scale-105"
+                  className="w-full px-6 py-3 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all transform hover:scale-105"
                 >
                   {sending ? "Sending…" : submitted ? "✓ Message Sent!" : "Send Message"}
                 </button>

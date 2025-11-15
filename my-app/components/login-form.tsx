@@ -50,7 +50,7 @@ export function AdminLoginForm() {
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <button
           type="submit"
-          className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+          className="w-full px-4 py-2 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
         >
           Login
         </button>

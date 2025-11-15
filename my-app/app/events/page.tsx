@@ -179,7 +179,7 @@ export default function EventsPage() {
                   }
                 }}
                 disabled={subStatus === "loading"}
-                className="px-6 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg transition-all disabled:opacity-60"
+                className="px-6 py-2 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-medium hover:shadow-lg transition-all disabled:opacity-60"
               >
                 {subStatus === "loading" ? "Subscribing…" : "Subscribe"}
               </button>

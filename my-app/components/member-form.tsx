@@ -231,7 +231,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
         <button
           type="submit"
           disabled={uploading}
-          className="flex-1 px-4 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all disabled:opacity-50"
+          className="flex-1 px-4 py-2 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all disabled:opacity-50"
         >
           {member ? "Update" : "Add"} Member
         </button>

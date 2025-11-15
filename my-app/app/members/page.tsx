@@ -117,7 +117,7 @@ function MembersContent() {
             </p>
             <a
               href="/contact"
-              className="inline-block px-8 py-3 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+              className="inline-block px-8 py-3 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all"
             >
               Get in Touch
             </a>
