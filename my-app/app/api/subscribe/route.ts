@@ -9,15 +9,27 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { email } = await request.json().catch(() => ({ email: "" }))
-  const isValid = typeof email === "string" && /^(?:[a-zA-Z0-9_.'+\-]+)@(?:[a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$/.test(email)
-  if (!isValid) {
-    return NextResponse.json({ ok: false, error: "Invalid email" }, { status: 400 })
+  try {
+    const { email } = await request.json().catch(() => ({ email: "" }))
+    const isValid = typeof email === "string" && /^(?:[a-zA-Z0-9_.'+\-]+)@(?:[a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$/.test(email)
+    if (!isValid) {
+      return NextResponse.json({ ok: false, error: "Invalid email" }, { status: 400 })
+    }
+    const list = await getSubscribers().catch((e) => {
+      console.error("getSubscribers failed", e)
+      throw new Error("Storage read failed")
+    })
+    if (!list.includes(email)) {
+      list.push(email)
+      try {
+        await saveSubscribers(list)
+      } catch (e) {
+        console.error("saveSubscribers failed", e)
+        return NextResponse.json({ ok: false, error: "Could not persist subscription" }, { status: 500 })
+      }
+    }
+    return NextResponse.json({ ok: true })
+  } catch (err: any) {
+    return NextResponse.json({ ok: false, error: err?.message || "Unexpected error" }, { status: 500 })
   }
-  const list = await getSubscribers()
-  if (!list.includes(email)) {
-    list.push(email)
-    await saveSubscribers(list)
-  }
-  return NextResponse.json({ ok: true })
 }
