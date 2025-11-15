@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import type { Member } from "@/lib/types"
 import { wings } from "@/lib/data"
+import { uploadToCloudinary } from "@/lib/cloudinary"
 
 interface MemberFormProps {
   member?: Member
@@ -36,15 +37,17 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [uploading, setUploading] = useState(false)
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith("image/")) return
 
     const reader = new FileReader()
-    reader.onload = () => {
+    reader.onload = async () => {
       const img = new Image()
-      img.onload = () => {
+      img.onload = async () => {
         // Downscale large images to max 512px (width or height)
         const MAX_DIM = 512
         let { width, height } = img
@@ -61,7 +64,26 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
           ctx.drawImage(img, 0, 0, width, height)
           const isPng = file.type === "image/png"
           const dataUrl = canvas.toDataURL(isPng ? "image/png" : "image/jpeg", 0.85)
-          setFormData((prev) => ({ ...prev, image: dataUrl }))
+          try {
+            // If Cloudinary envs exist, upload and store URL; otherwise keep data URL
+            if (
+              process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME &&
+              process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+            ) {
+              setUploading(true)
+              const blob = await (await fetch(dataUrl)).blob()
+              const outFile = new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), { type: "image/jpeg" })
+              const url = await uploadToCloudinary(outFile)
+              setFormData((prev) => ({ ...prev, image: url }))
+            } else {
+              setFormData((prev) => ({ ...prev, image: dataUrl }))
+            }
+          } catch (err) {
+            console.error(err)
+            setFormData((prev) => ({ ...prev, image: dataUrl }))
+          } finally {
+            setUploading(false)
+          }
         }
       }
       img.src = reader.result as string
@@ -190,6 +212,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
           onChange={handleImageChange}
           className="w-full px-4 py-2 rounded-lg bg-card border border-border text-foreground file:bg-primary file:text-white file:border-0 file:rounded file:px-3 file:py-1 file:mr-3 cursor-pointer"
         />
+        {uploading && <p className="mt-2 text-sm text-foreground/60">Uploading image...</p>}
         {formData.image && (
           <div className="mt-2 flex items-center gap-3">
             <div className="relative w-20 h-20">
@@ -207,7 +230,8 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
       <div className="flex gap-2 pt-4">
         <button
           type="submit"
-          className="flex-1 px-4 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
+          disabled={uploading}
+          className="flex-1 px-4 py-2 rounded-lg bg-linear-to-r from-purple-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all disabled:opacity-50"
         >
           {member ? "Update" : "Add"} Member
         </button>
