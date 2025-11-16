@@ -67,3 +67,9 @@ export function rejectBlog(id: string) {
     writeAll(all)
   }
 }
+
+export function removeBlog(id: string) {
+  const all = readAll()
+  const filtered = all.filter(b => b.id !== id)
+  writeAll(filtered)
+}

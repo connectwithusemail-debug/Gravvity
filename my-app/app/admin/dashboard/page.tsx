@@ -9,7 +9,7 @@ import { MemberForm } from "@/components/member-form"
 import { EventForm } from "@/components/event-form"
 import type { Member, Event } from "@/lib/types"
 import { Edit2, Trash2, Plus, LogOut, Users, Calendar, BookOpen } from "lucide-react"
-import { getPendingBlogs, approveBlog, rejectBlog } from "@/lib/blog-store"
+import { getPendingBlogs, getApprovedBlogs, approveBlog, rejectBlog, removeBlog } from "@/lib/blog-store"
 import { useMemo, useState as useReactState } from "react"
 import { useAdminStore as useStore } from "@/hooks/use-admin-store"
 import MagicButton from "@/components/magic-button"
@@ -38,6 +38,7 @@ export default function AdminDashboard() {
   const [showAllMembers, setShowAllMembers] = useState(false)
   const [showAllEvents, setShowAllEvents] = useState(false)
   const [pendingBlogs, setPendingBlogs] = useState(() => getPendingBlogs())
+  const [approvedBlogs, setApprovedBlogs] = useState(() => getApprovedBlogs())
 
   // Run auth check once on mount.
   // Redirect unauthenticated users only after auth has been checked.
@@ -73,7 +74,10 @@ export default function AdminDashboard() {
     router.push("/")
   }
 
-  const refreshBlogs = () => setPendingBlogs(getPendingBlogs())
+  const refreshBlogs = () => {
+    setPendingBlogs(getPendingBlogs())
+    setApprovedBlogs(getApprovedBlogs())
+  }
 
   if (!authChecked) {
     return (
@@ -323,6 +327,29 @@ export default function AdminDashboard() {
                     ))}
                   </div>
                 )}
+
+                {/* Approved blogs - allow removal */}
+                <div className="mt-6">
+                  <h3 className="text-lg font-semibold mb-3">Approved Blogs</h3>
+                  {approvedBlogs.length === 0 ? (
+                    <div className="text-sm text-foreground/60">No approved blogs.</div>
+                  ) : (
+                    <div className="space-y-3">
+                      {approvedBlogs.map(b => (
+                        <div key={b.id} className="card-glow p-4 flex items-center gap-4">
+                          <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-card flex items-center justify-center text-xl">✍️</div>
+                          <div className="flex-1">
+                            <div className="font-semibold">{b.name} <span className="text-foreground/60">• {b.rollNumber}</span></div>
+                            <a href={b.mediumUrl} target="_blank" rel="noreferrer" className="text-sm text-purple-300 underline break-all">{b.mediumUrl}</a>
+                          </div>
+                          <div className="flex gap-2">
+                            <button onClick={()=>{ if(confirm('Remove this approved blog?')) { removeBlog(b.id); refreshBlogs() } }} className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-card/80 text-red-400">Remove</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

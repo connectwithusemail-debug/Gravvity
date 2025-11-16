@@ -76,12 +76,15 @@ export default function BlogsPage() {
                 className="block card-glow overflow-hidden group cursor-pointer slide-in-up h-[440px] flex flex-col"
                 style={{ animationDelay: `${idx * 0.06}s` }}
               >
-                <div className="relative w-full h-[75%] overflow-hidden">
-                  <img
-                    src="/gravity-logo.ico"
-                    alt="Gravity logo"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
+                {/* Top area: matching card background with centered logo */}
+                <div className="relative w-full h-[75%] overflow-hidden bg-card flex items-center justify-center rounded-t-lg">
+                  <div className="rounded-full bg-black/80 p-3 transition-transform duration-300 group-hover:scale-105">
+                    <img
+                      src="/gravity-logo.ico"
+                      alt="Gravity logo"
+                      className="w-40 h-40 object-contain"
+                    />
+                  </div>
                 </div>
 
                 <div className="p-5 flex-1 flex flex-col">
