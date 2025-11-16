@@ -47,15 +47,15 @@ export default function EventsPage() {
           </div>
 
           {/* Events Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {visibleEvents.map((event, index) => (
               <div
                 key={event.id}
-                className="card-glow overflow-hidden group slide-in-up h-[520px] flex flex-col"
+                className="card-glow overflow-hidden group slide-in-up h-[440px] flex flex-col"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Event Image */}
-                <div className="relative w-full h-64 overflow-hidden">
+                <div className="relative w-full h-[75%] overflow-hidden">
                   <img
                     src={event.image || "/placeholder.svg?key=event"}
                     alt={event.title}
@@ -64,14 +64,14 @@ export default function EventsPage() {
                 </div>
 
                 {/* Event Content */}
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="inline-block px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-xs font-medium text-purple-300 mb-3">
+                <div className="p-5 flex-1 flex flex-col">
+                  <div className="inline-block px-3 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/30 text-xs font-medium text-purple-300 mb-2">
                     {event.wing}
                   </div>
-
-                  <h3 className="text-xl font-bold mb-2 group-hover:gradient-text transition-all line-clamp-2">{event.title}</h3>
-
-                  <div className="space-y-2 pt-4 border-t border-border mt-auto">
+                  <div className="flex-1 flex items-center">
+                    <h3 className="text-lg font-bold mb-1 group-hover:gradient-text transition-all line-clamp-2">{event.title}</h3>
+                  </div>
+                  <div className="space-y-1 pt-3 border-t border-border mt-auto">
                     <div className="flex items-center gap-2 text-sm text-foreground/60">
                       <Calendar size={16} />
                       <span>{new Date(event.date).toLocaleDateString()}</span>
@@ -117,7 +117,7 @@ export default function EventsPage() {
               aria-label={selected.title}
             >
               <div
-                className="relative w-[600px] h-[400px] card-glow bg-card border border-border p-4 sm:p-6"
+                className="relative w-[900px] max-w-[95vw] h-[40vh] card-glow bg-card border border-border p-0 overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Close button */}
@@ -129,9 +129,26 @@ export default function EventsPage() {
                   <X size={18} />
                 </button>
 
-                {/* Description only with fixed-size rectangle and auto overflow */}
-                <div className="h-full overflow-auto pr-2 text-foreground/80 leading-relaxed whitespace-pre-line">
-                  {selected.description}
+                {/* Two-column layout: image left, text right */}
+                <div className="grid grid-cols-1 md:grid-cols-[33%_67%] h-full">
+                  {/* Left: Image */}
+                  <div className="relative h-full bg-black/20">
+                    <img
+                      src={selected.image || "/placeholder.svg?key=event"}
+                      alt={selected.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Right: Text content */}
+                  <div className="flex flex-col h-full p-5 sm:p-6 md:p-7">
+                    <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-foreground">
+                      {selected.title}
+                    </h3>
+                    <div className="flex-1 overflow-auto pr-1 text-foreground/80 leading-relaxed whitespace-pre-line">
+                      {selected.description}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

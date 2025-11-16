@@ -271,4 +271,15 @@
       left: 100%;
     }
   }
+
+  /* Click-to-spin animation for the hero logo wrapper */
+  .logo-spin-once {
+    animation: logo-spin-360 0.9s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+  }
+
+  @keyframes logo-spin-360 {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }

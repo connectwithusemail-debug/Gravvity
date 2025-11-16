@@ -47,11 +47,11 @@ function MembersContent() {
 
           {/* Coordinators Section */}
           <div className="mb-20">
-            <h2 className="text-3xl font-bold mb-8 flex items-center gap-2">
+            <h2 className="text-3xl font-bold mb-8 flex items-center justify-center gap-2 text-center">
               <span className="text-2xl">👑</span>
               <span>Coordinators</span>
             </h2>
-            <div className="flex flex-wrap gap-8 justify-start">
+            <div className="flex flex-wrap gap-8 justify-center">
               {coordinators.map((member) => (
                 <div key={member.id} className="fade-in-up">
                   <ProfileCard
@@ -79,11 +79,11 @@ function MembersContent() {
 
           {/* Members Section */}
           <div>
-            <h2 className="text-3xl font-bold mb-8 flex items-center gap-2">
+            <h2 className="text-3xl font-bold mb-8 flex items-center justify-center gap-2 text-center">
               <span className="text-2xl">👤</span>
               <span>Members</span>
             </h2>
-            <div className="flex flex-wrap gap-8 justify-start">
+            <div className="flex flex-wrap gap-8 justify-center">
               {regularMembers.map((member) => (
                 <div key={member.id} className="fade-in-up">
                   <ProfileCard

@@ -22,9 +22,11 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--brand-from)] to-[var(--brand-to)] flex items-center justify-center">
-              <span className="text-white font-bold text-lg">G</span>
-            </div>
+            <img
+              src="/gravity-logo.ico"
+              alt="Gravity Logo"
+              className="w-9 h-9 object-contain drop-shadow-[0_0_8px_rgba(124,92,255,0.3)] transition-transform duration-200 ease-out hover:scale-105"
+            />
             <span className="font-bold text-xl hidden sm:inline gradient-text">Gravity</span>
           </Link>
 

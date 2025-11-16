@@ -79,9 +79,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLElement>(null);
 
   const enterTimerRef = useRef<number | null>(null);
   const leaveRafRef = useRef<number | null>(null);
+  const hoverTimerRef = useRef<number | null>(null);
 
   const tiltEngine = useMemo(() => {
     if (!enableTilt) return null;
@@ -346,6 +348,28 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     onContactClick?.();
   }, [onContactClick]);
 
+  const handleAvatarMouseEnter = useCallback(() => {
+    if (hoverTimerRef.current) window.clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = window.setTimeout(() => {
+      cardRef.current?.classList.add('avatar-expanded');
+    }, 300);
+  }, []);
+
+  const clearAvatarExpandState = useCallback(() => {
+    if (hoverTimerRef.current) {
+      window.clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+    cardRef.current?.classList.remove('avatar-expanded');
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current) window.clearTimeout(hoverTimerRef.current);
+      cardRef.current?.classList.remove('avatar-expanded');
+    };
+  }, []);
+
   return (
     <div
       ref={wrapRef}
@@ -357,7 +381,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     >
       {behindGlowEnabled && <div className="pc-behind" />}
       <div ref={shellRef} className="pc-card-shell">
-        <section className="pc-card">
+        <section ref={cardRef} className="pc-card">
           <div className="pc-inside">
             <div className="pc-shine" />
             <div className="pc-glare" />
@@ -376,6 +400,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 src={normalizeSrc(avatarUrl) || PLACEHOLDER}
                 alt={`${name || 'User'} avatar`}
                 loading="lazy"
+                onMouseEnter={handleAvatarMouseEnter}
+                onMouseLeave={clearAvatarExpandState}
+                onTouchStart={handleAvatarMouseEnter}
+                onTouchEnd={clearAvatarExpandState}
                 onError={e => {
                   const t = e.target as HTMLImageElement;
                   t.src = PLACEHOLDER;

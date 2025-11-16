@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import LiquidEther from './LiquidEther';
+import { useState } from "react";
 
 export function HeroSection() {
   return (
@@ -32,8 +33,25 @@ export function HeroSection() {
   {/* Content overlay centered */}
   <div className="relative z-10 max-w-5xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
         {/* Badge */}
-        <div className="inline-block mb-6 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-sm font-medium text-purple-300">
-          Welcome to the Future of Tech
+         <div className="pt-8 flex justify-center">
+          {(() => {
+            const [isSpinning, setIsSpinning] = useState(false);
+            return (
+              <div
+                className={("inline-flex items-center justify-center " + (isSpinning ? "logo-spin-once" : "")).trim()}
+                onClick={() => setIsSpinning(true)}
+                onAnimationEnd={() => setIsSpinning(false)}
+                role="img"
+                aria-label="Gravity Logo"
+              >
+                <img
+                  src="/gravity-logo.ico"
+                  alt="Gravity Logo"
+                  className="w-25 h-25 object-contain drop-shadow-[0_0_12px_rgba(124,92,255,0.35)] float-animation transition-all duration-300 ease-out hover:scale-105 hover:rotate-[-2deg] hover:drop-shadow-[0_0_18px_rgba(124,92,255,0.6)] cursor-pointer"
+                />
+              </div>
+            );
+          })()}
         </div>
 
         {/* Main Heading */}
@@ -67,15 +85,7 @@ export function HeroSection() {
         </div>
 
         {/* Gravity Logo Display (replaces stats) */}
-        <div className="pt-8 flex justify-center">
-          <div className="gravity-logo-rings relative w-56 h-56 flex items-center justify-center rounded-full overflow-hidden slide-in-up">
-            <img
-              src="/gravity-logo.svg"
-              alt="Gravity Logo"
-              className="w-32 h-32 object-contain drop-shadow-[0_0_12px_rgba(124,92,255,0.35)]"
-            />
-          </div>
-        </div>
+       
       </div>
     </section>
   )
