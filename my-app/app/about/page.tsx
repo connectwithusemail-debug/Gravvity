@@ -11,8 +11,8 @@ export default function AboutPage() {
       <main className="min-h-screen bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header */}
-          <div className="text-center mb-16 slide-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold gradient-text mb-4">About Gravity</h1>
+          <div className="mb-16 slide-in-up">
+            <h1 className="text-5xl md:text-6xl text-center font-bold gradient-text mb-4">About Gravity</h1>
             <p className="text-xl text-foreground/70">Building the future of technology together</p>
           </div>
 

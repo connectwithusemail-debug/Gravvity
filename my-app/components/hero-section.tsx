@@ -1,10 +1,11 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import LiquidEther from './LiquidEther';
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import LiquidEther from "./LiquidEther";
 import { useState } from "react";
 import MagicButton from "@/components/magic-button";
+import { LettersPullUp } from "@/components/Text-Effect";
 
 export function HeroSection() {
   return (
@@ -12,7 +13,7 @@ export function HeroSection() {
       {/* Liquid Ether background covering the whole hero */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <LiquidEther
-          colors={[ '#5227FF', '#FF9FFC', '#B19EEF' ]}
+          colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
           mouseForce={20}
           cursorSize={100}
           isViscous={false}
@@ -27,19 +28,22 @@ export function HeroSection() {
           takeoverDuration={0.25}
           autoResumeDelay={3000}
           autoRampDuration={0.6}
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: "100%", height: "100%" }}
         />
       </div>
 
-  {/* Content overlay centered */}
-  <div className="relative z-10 max-w-5xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
+      {/* Content overlay centered */}
+      <div className="relative z-10 max-w-5xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
         {/* Badge */}
-         <div className="pt-8 flex justify-center">
+        <div className="pt-8 flex justify-center">
           {(() => {
             const [isSpinning, setIsSpinning] = useState(false);
             return (
               <div
-                className={("inline-flex items-center justify-center " + (isSpinning ? "logo-spin-once" : "")).trim()}
+                className={(
+                  "inline-flex items-center justify-center " +
+                  (isSpinning ? "logo-spin-once" : "")
+                ).trim()}
                 onClick={() => setIsSpinning(true)}
                 onAnimationEnd={() => setIsSpinning(false)}
                 role="img"
@@ -56,32 +60,40 @@ export function HeroSection() {
         </div>
 
         {/* Main Heading */}
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 select-none leading-tight">
-          <span className="gradient-text ">GRAVITY</span>
-          <br />
-          Technical Society
-        </h1>
+        <div>
+          <LettersPullUp
+            text={`GRAVITY`}
+            className="gradient-text select-none"
+          />
+          <LettersPullUp text={`TECHNICAL SOCIETY`} className="select-none" />
+        </div>
 
         {/* Subheading */}
-  <p className="text-xl md:text-2xl selection:bg-[#65555563] selection:text-white  text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed">
-          Seven wings of innovation: Competitive Coding, Web Development, Design, FOSS, Private AI, Blockchain, and
-          Metaverse
+        <p className="text-xl md:text-2xl selection:bg-[#65555563] selection:text-white  text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed">
+          Seven wings of innovation: Competitive Coding, Web Development,
+          Design, FOSS, Private AI, Blockchain, and Metaverse
         </p>
 
         {/* CTA Buttons */}
-  <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <MagicButton href="#wings" className="font-bold w-60 sm:w-auto self-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <MagicButton
+            href="#wings"
+            className="font-bold w-60 sm:w-auto self-center"
+          >
             <span>Explore Wings</span>
             <ArrowRight size={20} />
           </MagicButton>
-          <MagicButton href="/contact" className="font-bold w-56 sm:w-auto self-center" heightClass="h-12">
+          <MagicButton
+            href="/contact"
+            className="font-bold w-56 sm:w-auto self-center"
+            heightClass="h-12"
+          >
             Get in Touch
           </MagicButton>
         </div>
 
         {/* Gravity Logo Display (replaces stats) */}
-       
       </div>
     </section>
-  )
+  );
 }
