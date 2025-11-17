@@ -27,22 +27,10 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <div className="flex flex-col text-sm items-center md:items-start">
               <Link
-                href="/"
-                className="block w-full text-foreground/70 hover:text-foreground transition py-1"
-              >
-                Home
-              </Link>
-              <Link
                 href="/about"
                 className="block w-full text-foreground/70 hover:text-foreground transition py-1"
               >
                 About
-              </Link>
-              <Link
-                href="/wings"
-                className="block w-full text-foreground/70 hover:text-foreground transition py-1"
-              >
-                Wings
               </Link>
               <Link
                 href="/events"
@@ -55,12 +43,6 @@ export function Footer() {
                 className="block w-full text-foreground/70 hover:text-foreground transition py-1"
               >
                 Projects
-              </Link>
-              <Link
-                href="/members"
-                className="block w-full text-foreground/70 hover:text-foreground transition py-1"
-              >
-                Members
               </Link>
               <Link
                 href="/blogs"
@@ -77,14 +59,14 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Wings */}
+          {/* Wings (link to filtered members page) */}
           <div>
             <h4 className="font-semibold mb-4">Wings</h4>
             <div className="space-y-2 text-sm flex flex-col items-center md:items-start">
               {wings.map((w) => (
                 <Link
                   key={w.id}
-                  href={`/#wing-${slug(w.name)}`}
+                  href={`/members?wing=${encodeURIComponent(w.name)}`}
                   className="block text-foreground/70 hover:text-foreground transition"
                 >
                   {w.name}
