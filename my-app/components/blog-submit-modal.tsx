@@ -19,6 +19,8 @@ function isMediumUrl(url: string) {
 export default function BlogSubmitModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [name, setName] = useState("")
   const [roll, setRoll] = useState("")
+  const [title, setTitle] = useState("")
+  const [datePublished, setDatePublished] = useState("")
   const [link, setLink] = useState("")
   const [error, setError] = useState<string>("")
   const [submitted, setSubmitted] = useState(false)
@@ -29,6 +31,8 @@ export default function BlogSubmitModal({ open, onClose }: { open: boolean; onCl
       setName("")
       setRoll("")
       setLink("")
+      setTitle("")
+      setDatePublished("")
       setError("")
     }
   }, [open])
@@ -51,10 +55,10 @@ export default function BlogSubmitModal({ open, onClose }: { open: boolean; onCl
           </div>
         ) : (
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault()
             const trimmed = link.trim()
-            if (!name.trim() || !roll.trim() || !trimmed) {
+            if (!title.trim() || !name.trim() || !roll.trim() || !trimmed) {
               setError("All fields are required")
               return
             }
@@ -62,17 +66,37 @@ export default function BlogSubmitModal({ open, onClose }: { open: boolean; onCl
               setError("Only Medium links are allowed (medium.com)")
               return
             }
-            submitBlog({ name, rollNumber: roll, mediumUrl: trimmed })
-            // show a friendly success popup inside the modal, then close
-            setSubmitted(true)
-            setSubmittedMsg("Submitted — awaiting admin approval")
-            setTimeout(() => {
-              setSubmitted(false)
-              onClose()
-            }, 1400)
+            try {
+              const res = await fetch('/api/blogs', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title.trim(), name: name.trim(), rollNumber: roll.trim(), mediumUrl: trimmed, datePublished: datePublished || new Date().toISOString() })
+              })
+              if (!res.ok) throw new Error('Failed to submit')
+              // Optional: keep local fallback for instant UI
+              submitBlog({ name, rollNumber: roll, mediumUrl: trimmed })
+              setSubmitted(true)
+              setSubmittedMsg("Submitted — awaiting admin approval")
+              setTimeout(() => {
+                setSubmitted(false)
+                onClose()
+              }, 1400)
+            } catch (err) {
+              console.error('Blog submit failed', err)
+              setError('Submission failed — please try again later')
+            }
           }}
           className="space-y-4"
         >
+          <div>
+            <label className="block text-sm font-semibold mb-1">Title</label>
+            <input
+              value={title}
+              onChange={e=>setTitle(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Article title"
+            />
+          </div>
           <div>
             <label className="block text-sm font-semibold mb-1">Name</label>
             <input
@@ -80,6 +104,15 @@ export default function BlogSubmitModal({ open, onClose }: { open: boolean; onCl
               onChange={e=>setName(e.target.value)}
               className="w-full px-3 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Your full name"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-1">Date Published (optional)</label>
+            <input
+              type="date"
+              value={datePublished}
+              onChange={e=>setDatePublished(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <div>

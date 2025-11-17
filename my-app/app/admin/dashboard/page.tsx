@@ -9,7 +9,7 @@ import { MemberForm } from "@/components/member-form"
 import { EventForm } from "@/components/event-form"
 import type { Member, Event } from "@/lib/types"
 import { Edit2, Trash2, Plus, LogOut, Users, Calendar, BookOpen } from "lucide-react"
-import { getPendingBlogs, getApprovedBlogs, approveBlog, rejectBlog, removeBlog } from "@/lib/blog-store"
+// Replace localStorage blog store with server-backed API calls
 import { useMemo, useState as useReactState } from "react"
 import { useAdminStore as useStore } from "@/hooks/use-admin-store"
 import MagicButton from "@/components/magic-button"
@@ -37,8 +37,8 @@ export default function AdminDashboard() {
   const [isAddingEvent, setIsAddingEvent] = useState(false)
   const [showAllMembers, setShowAllMembers] = useState(false)
   const [showAllEvents, setShowAllEvents] = useState(false)
-  const [pendingBlogs, setPendingBlogs] = useState(() => getPendingBlogs())
-  const [approvedBlogs, setApprovedBlogs] = useState(() => getApprovedBlogs())
+  const [pendingBlogs, setPendingBlogs] = useState<any[]>([])
+  const [approvedBlogs, setApprovedBlogs] = useState<any[]>([])
 
   // Run auth check once on mount.
   // Redirect unauthenticated users only after auth has been checked.
@@ -74,10 +74,23 @@ export default function AdminDashboard() {
     router.push("/")
   }
 
-  const refreshBlogs = () => {
-    setPendingBlogs(getPendingBlogs())
-    setApprovedBlogs(getApprovedBlogs())
+  const refreshBlogs = async () => {
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('gravity_admin_token') : null
+      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {}
+      const res = await fetch('/api/blogs', { headers })
+      if (!res.ok) return
+      const blogs = await res.json()
+      setPendingBlogs(blogs.filter((b: any) => !b.approved))
+      setApprovedBlogs(blogs.filter((b: any) => b.approved))
+    } catch (e) {
+      console.error('Failed to load blogs', e)
+    }
   }
+
+  useEffect(() => {
+    if (isLoggedIn) void refreshBlogs()
+  }, [isLoggedIn])
 
   if (!authChecked) {
     return (
@@ -320,8 +333,25 @@ export default function AdminDashboard() {
                           <a href={b.mediumUrl} target="_blank" rel="noreferrer" className="text-sm text-purple-300 underline break-all">{b.mediumUrl}</a>
                         </div>
                         <div className="flex gap-2">
-                          <MagicButton onClick={()=>{ approveBlog(b.id); refreshBlogs() }} heightClass="h-9">Approve</MagicButton>
-                          <button onClick={()=>{ rejectBlog(b.id); refreshBlogs() }} className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-card/80 text-red-400">Reject</button>
+                          <MagicButton onClick={async ()=>{
+                            try {
+                              const token = typeof window !== 'undefined' ? localStorage.getItem('gravity_admin_token') : null
+                              const headers: HeadersInit = {
+                                'Content-Type': 'application/json',
+                                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                              }
+                              const res = await fetch(`/api/blogs/${b.id}`, { method: 'PUT', headers, body: JSON.stringify({ approved: true }) })
+                              if (res.ok) await refreshBlogs()
+                            } catch (e) { console.error('Approve failed', e) }
+                          }} heightClass="h-9">Approve</MagicButton>
+                          <button onClick={async ()=>{
+                            try {
+                              const token = typeof window !== 'undefined' ? localStorage.getItem('gravity_admin_token') : null
+                              const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {}
+                              const res = await fetch(`/api/blogs/${b.id}`, { method: 'DELETE', headers })
+                              if (res.ok) await refreshBlogs()
+                            } catch (e) { console.error('Reject failed', e) }
+                          }} className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-card/80 text-red-400">Reject</button>
                         </div>
                       </div>
                     ))}
@@ -343,7 +373,15 @@ export default function AdminDashboard() {
                             <a href={b.mediumUrl} target="_blank" rel="noreferrer" className="text-sm text-purple-300 underline break-all">{b.mediumUrl}</a>
                           </div>
                           <div className="flex gap-2">
-                            <button onClick={()=>{ if(confirm('Remove this approved blog?')) { removeBlog(b.id); refreshBlogs() } }} className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-card/80 text-red-400">Remove</button>
+                            <button onClick={async ()=>{
+                              if(!confirm('Remove this approved blog?')) return
+                              try {
+                                const token = typeof window !== 'undefined' ? localStorage.getItem('gravity_admin_token') : null
+                                const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {}
+                                const res = await fetch(`/api/blogs/${b.id}`, { method: 'DELETE', headers })
+                                if (res.ok) await refreshBlogs()
+                              } catch (e) { console.error('Remove failed', e) }
+                            }} className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-card/80 text-red-400">Remove</button>
                           </div>
                         </div>
                       ))}
