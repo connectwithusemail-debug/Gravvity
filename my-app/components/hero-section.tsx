@@ -48,7 +48,7 @@ export function HeroSection() {
                 <img
                   src="/gravity-logo.ico"
                   alt="Gravity Logo"
-                  className="w-25 h-25 object-contain drop-shadow-[0_0_12px_rgba(124,92,255,0.35)] float-animation transition-all duration-300 ease-out hover:scale-105 hover:rotate-[-2deg] hover:drop-shadow-[0_0_18px_rgba(124,92,255,0.6)] cursor-pointer"
+                  className="w-25 h-25 object-contain drop-shadow-[0_0_12px_rgba(124,92,255,0.35)] float-animation transition-all duration-300 ease-out hover:scale-105 hover:-rotate-2 hover:drop-shadow-[0_0_18px_rgba(124,92,255,0.6)] cursor-pointer"
                 />
               </div>
             );
@@ -56,14 +56,14 @@ export function HeroSection() {
         </div>
 
         {/* Main Heading */}
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-          <span className="gradient-text">Gravity</span>
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 select-none leading-tight">
+          <span className="gradient-text ">Gravity</span>
           <br />
           Technical Society
         </h1>
 
         {/* Subheading */}
-  <p className="text-xl md:text-2xl text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed">
+  <p className="text-xl md:text-2xl selection:bg-[#65555563] selection:text-white  text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed">
           Seven wings of innovation: Competitive Coding, Web Development, Design, FOSS, Private AI, Blockchain, and
           Metaverse
         </p>

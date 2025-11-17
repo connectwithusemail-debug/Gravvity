@@ -298,6 +298,11 @@
   }
 }
 
+*::selection{
+  background-color: #544b543f;
+  color:white;
+}
+
 /* Ensure page surfaces don't block the global grid; keep cards opaque */
 @layer base {
   /* Allow the background grid to be visible around content by making page-level backgrounds transparent */
