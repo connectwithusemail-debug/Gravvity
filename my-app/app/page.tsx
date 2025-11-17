@@ -11,7 +11,7 @@ import IntroVideo from "@/components/intro-video";
 import { useState, useEffect, JSX } from "react";
 
 const STORAGE_KEY = "introVideoSeenAt";
-const EXPIRY_MS = 24 * 60 * 60 * 1000;
+const EXPIRY_MS =60 * 60 * 1000;
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState<boolean>(false);
@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <main className="bg-background">
+      <main className="bg-background overflow-x-hidden">
         <HeroSection />
         <AboutSection />
         <WingsPage />
