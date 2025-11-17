@@ -3,8 +3,6 @@
 import { useState, useEffect, useCallback } from "react"
 import type { Member, Event } from "@/lib/types"
 
-const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
-
 const TOKEN_KEY = "gravity_admin_token"
 
 export function useAdminStore() {
@@ -19,32 +17,39 @@ export function useAdminStore() {
     setIsLoggedIn(!!token)
 
     const load = async () => {
+      if (!token) {
+        setIsLoading(false)
+        setAuthChecked(true)
+        return
+      }
+
       try {
-        if (!token) {
-          // Load public, read-only data
-            const [membersRes, eventsRes] = await Promise.all([
-              fetch(`${API_BASE}/api/public/members`),
-              fetch(`${API_BASE}/api/public/events`),
-            ])
-            if (membersRes.ok) {
-              setMembers(await membersRes.json())
-            }
-            if (eventsRes.ok) {
-              setEvents(await eventsRes.json())
-            }
-        } else {
-          const headers: HeadersInit = {
-            Authorization: `Bearer ${token}`,
-          }
-          const [membersRes, eventsRes] = await Promise.all([
-            fetch(`${API_BASE}/api/members`, { headers }),
-            fetch(`${API_BASE}/api/events`, { headers }),
-          ])
-          if (membersRes.ok) setMembers(await membersRes.json())
-          if (eventsRes.ok) setEvents(await eventsRes.json())
+        const headers: HeadersInit = {
+          Authorization: `Bearer ${token}`,
+        }
+
+        const [membersRes, eventsRes] = await Promise.all([
+          fetch(`/api/members`, { headers }),
+          fetch(`/api/events`, { headers }),
+        ])
+
+        if (membersRes.status === 401 || eventsRes.status === 401) {
+          // Token invalid or expired: clear and reflect logged-out state
+          if (typeof window !== "undefined") localStorage.removeItem(TOKEN_KEY)
+          setIsLoggedIn(false)
+        }
+
+        if (membersRes.ok) {
+          const data = (await membersRes.json()) as Member[]
+          setMembers(data)
+        }
+
+        if (eventsRes.ok) {
+          const data = (await eventsRes.json()) as Event[]
+          setEvents(data)
         }
       } catch (e) {
-        console.error("Failed to load admin/public data", e)
+        console.error("Failed to load admin data", e)
       } finally {
         setIsLoading(false)
         setAuthChecked(true)
@@ -56,7 +61,7 @@ export function useAdminStore() {
 
   const login = useCallback(async (id: string, password: string): Promise<boolean> => {
     try {
-      const res = await fetch(`${API_BASE}/api/admin/login`, {
+      const res = await fetch(`/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, password }),
@@ -92,7 +97,7 @@ export function useAdminStore() {
 
   const saveMember = useCallback(async (member: Member) => {
     try {
-      const res = await fetch(`${API_BASE}/api/members/${member.id}`, {
+      const res = await fetch(`/api/members/${member.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify(member),
@@ -107,7 +112,7 @@ export function useAdminStore() {
 
   const addMember = useCallback(async (member: Omit<Member, "id" | "createdAt">) => {
     try {
-      const res = await fetch(`${API_BASE}/api/members`, {
+      const res = await fetch(`/api/members`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify(member),
@@ -124,7 +129,7 @@ export function useAdminStore() {
 
   const deleteMember = useCallback(async (id: string) => {
     try {
-      const res = await fetch(`${API_BASE}/api/members/${id}`, {
+      const res = await fetch(`/api/members/${id}`, {
         method: "DELETE",
         headers: authHeaders(),
       })
@@ -138,7 +143,7 @@ export function useAdminStore() {
   // Events CRUD
   const addEvent = useCallback(async (event: Omit<Event, "id" | "createdAt">) => {
     try {
-      const res = await fetch(`${API_BASE}/api/events`, {
+      const res = await fetch(`/api/events`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify(event),
@@ -155,7 +160,7 @@ export function useAdminStore() {
 
   const saveEvent = useCallback(async (event: Event) => {
     try {
-      const res = await fetch(`${API_BASE}/api/events/${event.id}`, {
+      const res = await fetch(`/api/events/${event.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify(event),
@@ -170,7 +175,7 @@ export function useAdminStore() {
 
   const deleteEvent = useCallback(async (id: string) => {
     try {
-      const res = await fetch(`${API_BASE}/api/events/${id}`, {
+      const res = await fetch(`/api/events/${id}`, {
         method: "DELETE",
         headers: authHeaders(),
       })

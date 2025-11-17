@@ -1,6 +1,6 @@
 "use client"
 
-import { useMembers } from "@/hooks/use-members"
+import { useAdminStore } from "@/hooks/use-admin-store"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Suspense, useMemo } from "react"
@@ -11,7 +11,7 @@ import "@/components/ProfileCard.css"
 import MagicButton from "@/components/magic-button"
 
 function MembersContent() {
-  const members = useMembers()
+  const { members } = useAdminStore()
   const searchParams = useSearchParams()
   const wingFilter = searchParams.get("wing") || ""
 

@@ -13,12 +13,27 @@
   NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
 
+# Use Netlify Functions for the Express API (path is relative to [build].base)
+[functions]
+  # Directory is relative to [build].base (my-app)
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Proxy all /api/* calls to the serverless function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
 # Local dev via `netlify dev` (proxies Next dev server)
 [dev]
   # Netlify Dev runs inside [build].base (my-app), so no prefix here
-  command = "npm run dev"
+  # Start only Next.js; Netlify Dev runs Functions separately
+  command = "npm --prefix my-app run dev"
   framework = "next"
   targetPort = 3000
   port = 8888
-  publish = ".next"
+  # Explicit publish dir for Netlify Dev previews
+  publish = "my-app/.next"
   autoLaunch = true

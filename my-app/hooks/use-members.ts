@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react"
 import type { Member } from "@/lib/types"
 
-const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
-
 export function useMembers() {
   const [members, setMembers] = useState<Member[]>([])
 
@@ -13,7 +11,7 @@ export function useMembers() {
 
     const loadMembers = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/public/members`, {
+        const res = await fetch(`/api/public/members`, {
           headers: { "Content-Type": "application/json" },
         })
         if (!res.ok) return

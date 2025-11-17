@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+const isNetlify = process.env.NETLIFY === "true";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || (isNetlify ? "" : "http://localhost:4000");
 
 const nextConfig: NextConfig = {
   images: {
@@ -9,7 +10,15 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    // On Netlify, we use netlify.toml redirects to the serverless function.
+    // Only generate rewrites if a BACKEND_URL is explicitly provided.
+    if (!BACKEND_URL) return [];
     return [
+      // Health check passthrough to backend
+      {
+        source: "/api/health",
+        destination: `${BACKEND_URL}/api/health`,
+      },
       // Public read-only endpoints consumed by the frontend
       {
         source: "/api/public/:path*",

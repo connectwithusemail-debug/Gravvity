@@ -1,3 +1,31 @@
+# General
+.DS_Store
+Thumbs.db
+*.log
+logs/
+
+# Node/Next
+node_modules/
+.next/
+out/
+.turbo/
+.vercel/
+.netlify/
+
+# Build/coverage
+dist/
+coverage/
+
+# Env files (do NOT commit secrets)
+.env
+.env.*
+my-app/.env
+my-app/.env.*
+my-app/.env.local
+
+# Editor
+.vscode/
+.idea/
 # Ignore environment files (keep secrets out of git)
 .env
 .env.local

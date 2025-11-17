@@ -18,7 +18,24 @@ export default function Home() {
   const [showContent, setShowContent] = useState<boolean>(false);
 
   useEffect(() => {
+    // decide whether to show intro based on query param or localStorage
     try {
+      const params = new URLSearchParams(window.location.search);
+      const introParam = params.get("intro");
+
+      if (introParam === "reset") {
+        localStorage.removeItem(STORAGE_KEY);
+        setShowIntro(true);
+        setShowContent(false);
+        return;
+      }
+
+      if (introParam === "1" || introParam === "true" || introParam === "force") {
+        setShowIntro(true);
+        setShowContent(false);
+        return;
+      }
+
       const raw = localStorage.getItem(STORAGE_KEY);
       const ts = raw ? Number(raw) : 0;
       const now = Date.now();
