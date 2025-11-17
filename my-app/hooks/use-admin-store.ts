@@ -19,53 +19,32 @@ export function useAdminStore() {
     setIsLoggedIn(!!token)
 
     const load = async () => {
-      if (!token) {
-        setIsLoading(false)
-        setAuthChecked(true)
-        return
-      }
-
       try {
-        const headers: HeadersInit = {
-          Authorization: `Bearer ${token}`,
-        }
-
-        const [membersRes, eventsRes] = await Promise.all([
-          fetch(`${API_BASE}/api/members`, { headers }),
-          fetch(`${API_BASE}/api/events`, { headers }),
-        ])
-
-        if (membersRes.ok) {
-          const raw = (await membersRes.json()) as any[]
-          const normalized: Member[] = raw.map((m) => ({
-            id: m.id || m._id || String(m.id ?? m._id ?? ""),
-            name: m.name,
-            role: m.role,
-            wing: m.wing,
-            bio: m.bio ?? "",
-            image: m.image,
-            isOverallCoordinator: m.isOverallCoordinator ?? false,
-            socials: m.socials ?? {},
-            createdAt: typeof m.createdAt === "string" ? Date.parse(m.createdAt) : m.createdAt ?? undefined,
-          }))
-          setMembers(normalized)
-        }
-
-        if (eventsRes.ok) {
-          const raw = (await eventsRes.json()) as any[]
-          const normalized: Event[] = raw.map((e) => ({
-            id: e.id || e._id || String(e.id ?? e._id ?? ""),
-            title: e.title,
-            date: e.date,
-            description: e.description,
-            wing: e.wing,
-            image: e.image,
-            createdAt: typeof e.createdAt === "string" ? Date.parse(e.createdAt) : e.createdAt ?? undefined,
-          }))
-          setEvents(normalized)
+        if (!token) {
+          // Load public, read-only data
+            const [membersRes, eventsRes] = await Promise.all([
+              fetch(`${API_BASE}/api/public/members`),
+              fetch(`${API_BASE}/api/public/events`),
+            ])
+            if (membersRes.ok) {
+              setMembers(await membersRes.json())
+            }
+            if (eventsRes.ok) {
+              setEvents(await eventsRes.json())
+            }
+        } else {
+          const headers: HeadersInit = {
+            Authorization: `Bearer ${token}`,
+          }
+          const [membersRes, eventsRes] = await Promise.all([
+            fetch(`${API_BASE}/api/members`, { headers }),
+            fetch(`${API_BASE}/api/events`, { headers }),
+          ])
+          if (membersRes.ok) setMembers(await membersRes.json())
+          if (eventsRes.ok) setEvents(await eventsRes.json())
         }
       } catch (e) {
-        console.error("Failed to load admin data", e)
+        console.error("Failed to load admin/public data", e)
       } finally {
         setIsLoading(false)
         setAuthChecked(true)
@@ -119,18 +98,7 @@ export function useAdminStore() {
         body: JSON.stringify(member),
       })
       if (!res.ok) return
-      const updatedRaw = await res.json()
-      const updated: Member = {
-        id: updatedRaw.id || updatedRaw._id || member.id,
-        name: updatedRaw.name,
-        role: updatedRaw.role,
-        wing: updatedRaw.wing,
-        bio: updatedRaw.bio ?? "",
-        image: updatedRaw.image,
-        isOverallCoordinator: updatedRaw.isOverallCoordinator ?? false,
-        socials: updatedRaw.socials ?? {},
-        createdAt: typeof updatedRaw.createdAt === "string" ? Date.parse(updatedRaw.createdAt) : updatedRaw.createdAt ?? member.createdAt,
-      }
+      const updated = (await res.json()) as Member
       setMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)))
     } catch (e) {
       console.error("Failed to save member", e)
@@ -145,18 +113,7 @@ export function useAdminStore() {
         body: JSON.stringify(member),
       })
       if (!res.ok) throw new Error("Failed to create member")
-      const createdRaw = await res.json()
-      const created: Member = {
-        id: createdRaw.id || createdRaw._id,
-        name: createdRaw.name,
-        role: createdRaw.role,
-        wing: createdRaw.wing,
-        bio: createdRaw.bio ?? "",
-        image: createdRaw.image,
-        isOverallCoordinator: createdRaw.isOverallCoordinator ?? false,
-        socials: createdRaw.socials ?? {},
-        createdAt: typeof createdRaw.createdAt === "string" ? Date.parse(createdRaw.createdAt) : createdRaw.createdAt ?? Date.now(),
-      }
+      const created = (await res.json()) as Member
       setMembers((prev) => [...prev, created])
       return created
     } catch (e) {
@@ -187,16 +144,7 @@ export function useAdminStore() {
         body: JSON.stringify(event),
       })
       if (!res.ok) throw new Error("Failed to create event")
-      const createdRaw = await res.json()
-      const created: Event = {
-        id: createdRaw.id || createdRaw._id,
-        title: createdRaw.title,
-        date: createdRaw.date,
-        description: createdRaw.description,
-        wing: createdRaw.wing,
-        image: createdRaw.image,
-        createdAt: typeof createdRaw.createdAt === "string" ? Date.parse(createdRaw.createdAt) : createdRaw.createdAt ?? Date.now(),
-      }
+      const created = (await res.json()) as Event
       setEvents((prev) => [...prev, created])
       return created
     } catch (e) {
@@ -213,16 +161,7 @@ export function useAdminStore() {
         body: JSON.stringify(event),
       })
       if (!res.ok) return
-      const updatedRaw = await res.json()
-      const updated: Event = {
-        id: updatedRaw.id || updatedRaw._id || event.id,
-        title: updatedRaw.title,
-        date: updatedRaw.date,
-        description: updatedRaw.description,
-        wing: updatedRaw.wing,
-        image: updatedRaw.image,
-        createdAt: typeof updatedRaw.createdAt === "string" ? Date.parse(updatedRaw.createdAt) : updatedRaw.createdAt ?? event.createdAt,
-      }
+      const updated = (await res.json()) as Event
       setEvents((prev) => prev.map((e) => (e.id === updated.id ? updated : e)))
     } catch (e) {
       console.error("Failed to save event", e)
