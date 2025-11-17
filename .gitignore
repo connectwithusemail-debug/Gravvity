@@ -1,3 +1,11 @@
+# Ignore environment files (keep secrets out of git)
+.env
+.env.local
+.env.*
+*.env
+my-app/.env
+my-app/.env.local
+my-app/.env.*
 # General
 .DS_Store
 Thumbs.db

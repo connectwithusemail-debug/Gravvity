@@ -57,7 +57,7 @@ export function HeroSection() {
 
         {/* Main Heading */}
         <h1 className="text-5xl md:text-7xl font-bold mb-6 select-none leading-tight">
-          <span className="gradient-text ">Gravity</span>
+          <span className="gradient-text ">GRAVITY</span>
           <br />
           Technical Society
         </h1>

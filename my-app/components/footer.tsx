@@ -105,21 +105,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border pt-8 text-sm text-foreground/60">
-          <p className="text-center">&copy; {new Date().getFullYear()} Gravity Technical Society. All rights reserved.</p>
-          {/* Footer links each on its own row */}
-          <div className="mt-6 flex flex-col items-center gap-2">
-            <Link href="#" className="hover:text-foreground transition w-full text-center">
-              Privacy
-            </Link>
-            <Link href="#" className="hover:text-foreground transition w-full text-center">
-              Terms
-            </Link>
-            <Link href="#" className="hover:text-foreground transition w-full text-center">
-              Credits
-            </Link>
-          </div>
-        </div>
+        {/* Removed lower legal section per request */}
       </div>
     </footer>
   )

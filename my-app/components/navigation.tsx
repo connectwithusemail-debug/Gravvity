@@ -27,7 +27,7 @@ export function Navigation() {
               alt="Gravity Logo"
               className="w-9 h-9 object-contain drop-shadow-[0_0_8px_rgba(124,92,255,0.3)] transition-transform duration-200 ease-out hover:scale-105"
             />
-            <span className="font-bold text-xl hidden sm:inline gradient-text">Gravity</span>
+            <span className="font-bold text-xl hidden sm:inline gradient-text">GRAVITY</span>
           </Link>
 
           {/* Desktop Navigation */}
