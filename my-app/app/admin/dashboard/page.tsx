@@ -7,6 +7,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { MemberForm } from "@/components/member-form"
 import { EventForm } from "@/components/event-form"
+import { ProjectForm, ProjectInput } from "@/components/project-form"
 import type { Member, Event } from "@/lib/types"
 import { Edit2, Trash2, Plus, LogOut, Users, Calendar, BookOpen } from "lucide-react"
 // Replace localStorage blog store with server-backed API calls
@@ -37,6 +38,8 @@ export default function AdminDashboard() {
   const [isAddingEvent, setIsAddingEvent] = useState(false)
   const [showAllMembers, setShowAllMembers] = useState(false)
   const [showAllEvents, setShowAllEvents] = useState(false)
+  const [projects, setProjects] = useState<any[]>([])
+  const [isAddingProject, setIsAddingProject] = useState(false)
   const [pendingBlogs, setPendingBlogs] = useState<any[]>([])
   const [approvedBlogs, setApprovedBlogs] = useState<any[]>([])
 
@@ -48,6 +51,41 @@ export default function AdminDashboard() {
       router.replace("/admin")
     }
   }, [authChecked, isLoggedIn, router])
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      if (!isLoggedIn) return
+      try {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('gravity_admin_token') : null
+        const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {}
+        const res = await fetch('/api/projects', { headers })
+        if (res.ok) setProjects(await res.json())
+      } catch (e) { console.error('Failed to load projects', e) }
+    }
+    void loadProjects()
+  }, [isLoggedIn])
+
+  const addProject = async (input: ProjectInput) => {
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('gravity_admin_token') : null
+      const headers: HeadersInit = { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }
+      const payload = { ...input, technologies: input.tags }
+      const res = await fetch('/api/projects', { method: 'POST', headers, body: JSON.stringify(payload) })
+      if (!res.ok) throw new Error('Create failed')
+      const created = await res.json()
+      setProjects((p) => [created, ...p])
+      setIsAddingProject(false)
+    } catch (e) { console.error('Add project failed', e) }
+  }
+
+  const deleteProject = async (id: string) => {
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('gravity_admin_token') : null
+      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {}
+      const res = await fetch(`/api/projects/${id}`, { method: 'DELETE', headers })
+      if (res.ok || res.status === 204) setProjects((p) => p.filter(x => x.id !== id))
+    } catch (e) { console.error('Delete project failed', e) }
+  }
 
   const handleSave = (member: Member) => {
     if (editingMember) {
@@ -176,6 +214,24 @@ export default function AdminDashboard() {
                     <span>Add New Event</span>
                   </MagicButton>
                 )}
+                </div>
+
+                {/* Projects Form Section */}
+                <div className="card-glow p-6">
+                  <h2 className="text-xl font-bold mb-6">
+                    {isAddingProject ? "Add New Project" : "Add Project"}
+                  </h2>
+                  {isAddingProject ? (
+                    <ProjectForm
+                      onSubmit={addProject}
+                      onCancel={() => setIsAddingProject(false)}
+                    />
+                  ) : (
+                    <MagicButton onClick={() => setIsAddingProject(true)} className="w-full" heightClass="h-11">
+                      <Plus size={20} />
+                      <span>Add New Project</span>
+                    </MagicButton>
+                  )}
                 </div>
               </div>
             </div>
@@ -308,6 +364,37 @@ export default function AdminDashboard() {
                           className="p-2 rounded-lg hover:bg-card transition-all text-red-500"
                         >
                           <Trash2 size={18}/>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Projects Management */}
+              <div className="mt-12">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold flex items-center gap-2"><BookOpen size={18}/> Projects</h2>
+                  <div className="flex gap-2" />
+                </div>
+                <div className="space-y-3">
+                  {projects.map((p) => (
+                    <div key={p.id} className="card-glow p-4 flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-card border border-border">
+                        <img src={p.image || '/gravity-logo.ico'} alt={p.title} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold">{p.title}</div>
+                        <div className="text-xs text-foreground/60">{p.wing}</div>
+                        {Array.isArray(p.tags) && p.tags.length > 0 ? (
+                          <div className="mt-1 flex gap-1 flex-wrap text-xs text-foreground/70">
+                            {p.tags.map((t: string, i: number) => <span key={i} className="px-2 py-0.5 bg-purple-500/20 rounded">{t}</span>)}
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="flex gap-2">
+                        <button onClick={() => deleteProject(p.id)} className="p-2 rounded-lg hover:bg-card transition-all text-red-500" title="Delete">
+                          <Trash2 size={18} />
                         </button>
                       </div>
                     </div>

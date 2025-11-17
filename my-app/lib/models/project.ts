@@ -3,11 +3,14 @@ import mongoose, { Schema, models, model } from 'mongoose'
 const ProjectSchema = new Schema(
   {
     title: { type: String, required: true },
-    description: { type: String, required: true },
+    description: { type: String, default: '' },
     wing: { type: String, required: true },
     link: { type: String },
-    image: { type: String },
+    githubLink: { type: String },
+    devfolioLink: { type: String },
+    image: { type: String, default: '/gravity-logo.ico' },
     technologies: { type: [String], default: [] },
+    tags: { type: [String], default: [] },
   },
   {
     timestamps: true,
