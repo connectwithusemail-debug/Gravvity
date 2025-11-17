@@ -159,13 +159,13 @@ export default function EventsPage() {
           <div className="mt-16 card-glow p-8 text-center slide-in-up">
             <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
             <p className="text-foreground/70 mb-6">Subscribe to get notifications about upcoming events</p>
-            <div className="flex gap-2 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-2 rounded-lg bg-card border border-border text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full sm:flex-1 px-4 py-2 rounded-lg bg-card border border-border text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <MagicButton
                 onClick={async () => {
@@ -198,6 +198,7 @@ export default function EventsPage() {
                 }}
                 disabled={subStatus === "loading"}
                 heightClass="h-10"
+                className="w-5/6 sm:w-auto self-center"
               >
                 {subStatus === "loading" ? "Subscribing…" : "Subscribe"}
               </MagicButton>

@@ -35,3 +35,6 @@ build/
 
 # OS
 Icon?
+
+# Local Netlify folder
+.netlify

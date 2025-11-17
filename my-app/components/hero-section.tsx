@@ -70,11 +70,11 @@ export function HeroSection() {
 
         {/* CTA Buttons */}
   <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <MagicButton href="#wings" className="font-bold">
+          <MagicButton href="#wings" className="font-bold w-60 sm:w-auto self-center">
             <span>Explore Wings</span>
             <ArrowRight size={20} />
           </MagicButton>
-          <MagicButton href="/contact" className="font-bold" heightClass="h-12">
+          <MagicButton href="/contact" className="font-bold w-56 sm:w-auto self-center" heightClass="h-12">
             Get in Touch
           </MagicButton>
         </div>

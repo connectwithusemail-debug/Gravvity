@@ -15,6 +15,7 @@
 
 # Local dev via `netlify dev` (proxies Next dev server)
 [dev]
+  # Netlify Dev runs inside [build].base (my-app), so no prefix here
   command = "npm run dev"
   framework = "next"
   targetPort = 3000

@@ -1,5 +1,8 @@
 import Link from "next/link"
-import { Mail, Github, Linkedin, Twitter } from "lucide-react"
+import { Mail, Github, Linkedin, Twitter, Instagram } from "lucide-react"
+import { wings } from "@/lib/data"
+
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
 
 export function Footer() {
   return (
@@ -10,20 +13,36 @@ export function Footer() {
           <div>
             <h3 className="font-bold text-lg gradient-text mb-2">Gravity</h3>
             <p className="text-foreground/60 text-sm">Technical Society for Innovation & Excellence</p>
+            <p className="text-foreground/60 text-sm mt-2">IIIT Allahabad</p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
-            <div className="space-y-2 text-sm">
-              <Link href="/about" className="text-foreground/70 hover:text-foreground transition">
+            <div className="flex flex-col text-sm">
+              <Link href="/" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
+                Home
+              </Link>
+              <Link href="/about" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
                 About
               </Link>
-              <Link href="/wings" className="text-foreground/70 hover:text-foreground transition">
+              <Link href="/wings" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
                 Wings
               </Link>
-              <Link href="/events" className="text-foreground/70 hover:text-foreground transition">
+              <Link href="/events" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
                 Events
+              </Link>
+              <Link href="/projects" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
+                Projects
+              </Link>
+              <Link href="/members" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
+                Members
+              </Link>
+              <Link href="/blogs" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
+                Blogs
+              </Link>
+              <Link href="/contact" className="block w-full text-foreground/70 hover:text-foreground transition py-1">
+                Contact
               </Link>
             </div>
           </div>
@@ -32,9 +51,15 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Wings</h4>
             <div className="space-y-2 text-sm">
-              <p className="text-foreground/70 hover:text-foreground transition cursor-pointer">Competitive Coding</p>
-              <p className="text-foreground/70 hover:text-foreground transition cursor-pointer">Web Development</p>
-              <p className="text-foreground/70 hover:text-foreground transition cursor-pointer">Design</p>
+              {wings.map((w) => (
+                <Link
+                  key={w.id}
+                  href={`/#wing-${slug(w.name)}`}
+                  className="block text-foreground/70 hover:text-foreground transition"
+                >
+                  {w.name}
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -42,32 +67,55 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Connect</h4>
             <div className="flex gap-4">
-              <a href="#" className="text-foreground/60 hover:text-primary transition">
+              <a
+                href="#"
+                aria-label="Gravity on GitHub"
+                className="text-foreground/60 hover:text-primary transition"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github size={20} />
               </a>
-              <a href="#" className="text-foreground/60 hover:text-primary transition">
+              <a
+                href="https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Aorganization%3A88675450&keywords=gravity%2C%20iiit%20allahabad&origin=RICH_QUERY_SUGGESTION&position=0&searchId=2d92fe41-6498-4e26-91de-097b6b4e75d2&sid=Jg&spellCorrectionEnabled=false"
+                aria-label="Gravity on LinkedIn"
+                className="text-foreground/60 hover:text-primary transition"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="text-foreground/60 hover:text-primary transition">
-                <Twitter size={20} />
+              <a
+                href="https://www.instagram.com/gravityiiita/"
+                aria-label="Gravity on Instagram"
+                className="text-foreground/60 hover:text-primary transition"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram size={20} />
               </a>
-              <a href="#" className="text-foreground/60 hover:text-primary transition">
+              <a
+                href="/contact"
+                aria-label="Contact Gravity"
+                className="text-foreground/60 hover:text-primary transition"
+              >
                 <Mail size={20} />
               </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-foreground/60">
-          <p>&copy; 2025 Gravity Technical Society. All rights reserved.</p>
-          <div className="flex gap-6 mt-4 sm:mt-0">
-            <Link href="#" className="hover:text-foreground transition">
+        <div className="border-t border-border pt-8 text-sm text-foreground/60">
+          <p className="text-center">&copy; {new Date().getFullYear()} Gravity Technical Society. All rights reserved.</p>
+          {/* Footer links each on its own row */}
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <Link href="#" className="hover:text-foreground transition w-full text-center">
               Privacy
             </Link>
-            <Link href="#" className="hover:text-foreground transition">
+            <Link href="#" className="hover:text-foreground transition w-full text-center">
               Terms
             </Link>
-            <Link href="#" className="hover:text-foreground transition">
+            <Link href="#" className="hover:text-foreground transition w-full text-center">
               Credits
             </Link>
           </div>

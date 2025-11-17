@@ -8,6 +8,7 @@ import type { Member } from "@/lib/types"
 import { useSearchParams } from "next/navigation"
 import ProfileCard from "@/components/profile-card"
 import "@/components/ProfileCard.css"
+import MagicButton from "@/components/magic-button"
 
 function MembersContent() {
   const { members } = useAdminStore()
@@ -115,12 +116,9 @@ function MembersContent() {
             <p className="text-foreground/70 mb-6">
               Interested in joining Gravity? We're always looking for passionate members!
             </p>
-            <a
-              href="/contact"
-              className="inline-block px-8 py-3 rounded-lg bg-linear-to-r from-[var(--brand-from)] to-[var(--brand-to)] text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all"
-            >
+            <MagicButton href="/contact" className="mx-auto w-48 md:w-56">
               Get in Touch
-            </a>
+            </MagicButton>
           </div>
         </div>
       </main>

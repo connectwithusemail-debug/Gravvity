@@ -6,8 +6,28 @@ import { wings } from "@/lib/data"
 import Link from "next/link"
 import MagicBorderCard from "@/components/magic-border-card"
 import MagicBorderExact from "@/components/magic-border-exact"
+import { useEffect } from "react"
 
 export default function WingsPage() {
+  const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+
+  useEffect(() => {
+    const scrollToHash = (hash?: string) => {
+      const id = (hash || window.location.hash).replace(/^#/, "")
+      if (!id) return
+      const el = document.getElementById(id)
+      if (!el) return
+      el.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+
+    scrollToHash()
+    const onHashChange = () => scrollToHash(window.location.hash)
+    window.addEventListener("hashchange", onHashChange)
+    return () => {
+      window.removeEventListener("hashchange", onHashChange)
+    }
+  }, [])
+
   return (
     <>
       <main className="min-h-screen bg-background">
@@ -23,6 +43,7 @@ export default function WingsPage() {
             {wings.map((wing, index) => (
               <div
                 key={wing.id}
+                id={`wing-${slug(wing.name)}`}
                 className={`grid md:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? "md:flex-row-reverse" : ""}`}
               >
                 <div
@@ -69,7 +90,7 @@ export default function WingsPage() {
                     <div className="pt-2">
                       <Link
                         href={{ pathname: "/members", query: { wing: wing.name } }}
-                        className="inline-flex items-center gap-2 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 hover:opacity-90 transition-opacity"
+                        className="inline-flex items-center gap-2 font-semibold text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-cyan-400 hover:opacity-90 transition-opacity"
                       >
                         More...
                         <span aria-hidden>→</span>

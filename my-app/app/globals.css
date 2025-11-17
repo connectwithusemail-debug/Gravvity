@@ -296,6 +296,33 @@
       transform: rotate(360deg);
     }
   }
+
+  /* Rotating gradient used by magic button borders */
+  @keyframes spin {
+    from {
+      transform: scale(6) rotate(0deg);
+    }
+    to {
+      transform: scale(6) rotate(360deg);
+    }
+  }
+
+  /* Dedicated class for magic button border spin */
+  .magic-border-spin {
+    --magic-spin-duration: 4s; /* slower default */
+    animation: magic-spin var(--magic-spin-duration) linear infinite;
+    transform: scale(6);
+    transform-origin: center;
+    will-change: transform;
+  }
+  @keyframes magic-spin {
+    from {
+      transform: scale(6) rotate(0deg);
+    }
+    to {
+      transform: scale(6) rotate(360deg);
+    }
+  }
 }
 
 /* Ensure page surfaces don't block the global grid; keep cards opaque */

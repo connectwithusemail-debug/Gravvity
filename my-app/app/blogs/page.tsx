@@ -6,19 +6,21 @@ import { defaultBlogs } from "@/lib/data"
 import { useEffect, useMemo, useState } from "react"
 import BlogSubmitModal from "@/components/blog-submit-modal"
 import { getApprovedBlogs } from "@/lib/blog-store"
-import { Calendar, User, Tag } from "lucide-react"
+import { Calendar, User, Tag, Search, X } from "lucide-react"
 import MagicButton from "@/components/magic-button"
 
 export default function BlogsPage() {
   const [open, setOpen] = useState(false)
-  const [approved, setApproved] = useState(() => getApprovedBlogs())
+  const [approved, setApproved] = useState(() => [] as any[])
+  const [query, setQuery] = useState("")
 
   useEffect(() => {
+    // load approved blogs on client after mount and keep in sync with storage/focus
+    setApproved(getApprovedBlogs())
     const onStorage = (e: StorageEvent) => {
       if (e.key === 'gravity.blogs') setApproved(getApprovedBlogs())
     }
     window.addEventListener('storage', onStorage)
-    // load on focus too
     const onFocus = () => setApproved(getApprovedBlogs())
     window.addEventListener('focus', onFocus)
     return () => {
@@ -53,21 +55,78 @@ export default function BlogsPage() {
   const staticPosts = useMemo(() =>
     [...defaultBlogs].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   , [])
+
+  const normalizedQuery = query.trim().toLowerCase()
+
+  const filteredApproved = useMemo(() => {
+    if (!normalizedQuery) return approved
+    return approved.filter(b => {
+      return (
+        b.name.toLowerCase().includes(normalizedQuery) ||
+        b.rollNumber.toLowerCase().includes(normalizedQuery) ||
+        b.mediumUrl.toLowerCase().includes(normalizedQuery)
+      )
+    })
+  }, [approved, normalizedQuery])
+
+  const filteredStaticPosts = useMemo(() => {
+    if (!normalizedQuery) return staticPosts
+    return staticPosts.filter(p => {
+      return (
+        p.title.toLowerCase().includes(normalizedQuery) ||
+        (p.author || "").toLowerCase().includes(normalizedQuery)
+      )
+    })
+  }, [staticPosts, normalizedQuery])
   return (
     <>
       <Navigation />
       <main className="min-h-screen bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          {/* Header */}
-          <div className="text-center mb-16 slide-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold gradient-text mb-4">Blog & Articles</h1>
-            <p className="text-xl text-foreground/70">Insights and stories from our community</p>
+          {/* Header with search */}
+          <div className="mb-10 slide-in-up">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="text-left">
+                <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-2">Blog & Articles</h1>
+                <p className="text-base md:text-lg text-foreground/70">Insights and stories from our community</p>
+              </div>
+
+                <div className="flex items-center gap-2 w-full md:w-1/3">
+                <div className="relative flex-1">
+                  <input
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    placeholder="Search by name, title or roll..."
+                    className="w-full pl-10 pr-10 py-2 rounded-lg bg-card border border-border text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/50" />
+                  {query ? (
+                    <button onClick={() => setQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/50">
+                      <X />
+                    </button>
+                  ) : null}
+                </div>
+                <button
+                  onClick={() => {
+                    // normalize query to trigger any filtering and remove focus
+                    setQuery(q => q.trim())
+                    const el = document.querySelector('#blog-search-input') as HTMLInputElement | null
+                    if (el) el.blur()
+                  }}
+                  className="px-4 py-2 rounded-lg bg-card border border-border hover:bg-card/80 text-sm flex items-center gap-2"
+                  aria-label="Search blogs"
+                >
+                  <Search />
+                  <span>Search</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Blog Posts (latest on top) - grid like Events/Projects */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/** Community submissions first */}
-            {approved.map((b, idx) => (
+            {filteredApproved.map((b, idx) => (
               <a
                 key={b.id}
                 href={b.mediumUrl}
@@ -106,7 +165,7 @@ export default function BlogsPage() {
               </a>
             ))}
 
-            {staticPosts.map((post, index) => (
+            {filteredStaticPosts.map((post, index) => (
               <article
                 key={post.id}
                 className="card-glow overflow-hidden group cursor-pointer slide-in-up h-[440px] flex flex-col"
@@ -145,6 +204,10 @@ export default function BlogsPage() {
               </article>
             ))}
           </div>
+
+          {filteredApproved.length === 0 && filteredStaticPosts.length === 0 && (
+            <div className="mt-8 text-center text-foreground/60">No results found for "{query}"</div>
+          )}
 
           {/* CTA for more blogs */}
           <div className="mt-16 card-glow p-8 text-center slide-in-up">
