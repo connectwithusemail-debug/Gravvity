@@ -51,12 +51,12 @@ const ADMIN_ID = process.env.ADMIN_ID || '123456'
 const JWT_SECRET = process.env.JWT_SECRET || 'dev_secret_change_me'
 
 if (!MONGO_URI) {
-  console.error('\n[Config] MONGO_URI is undefined. Create a .env.local file with MONGO_URI=...\n')
-  throw new Error('Missing MONGO_URI')
+  // Do NOT throw in serverless context; allow health endpoint to report missing config.
+  console.error('[Config] MONGO_URI is undefined. API routes will return 503 for DB access.')
 }
 
 // Connect to MongoDB (reuse connection across hot reloads / serverless invocations)
-if (!global.__MONGO_CONN_PROMISE__) {
+if (MONGO_URI && !global.__MONGO_CONN_PROMISE__) {
   global.__MONGO_CONN_PROMISE__ = mongoose
     .connect(MONGO_URI, { dbName: 'gravity' })
     .then(() => console.log('[MongoDB] Connected'))
@@ -102,6 +102,7 @@ app.post('/api/admin/login', (req, res) => {
 
 // Public, read-only endpoints
 app.get('/api/public/members', async (_req, res) => {
+  if (!MONGO_URI) return res.status(503).json({ error: 'Database unavailable (no MONGO_URI)' })
   try {
     const members = await Member.find().sort({ createdAt: -1 })
     res.json(members)
