@@ -19,7 +19,14 @@ export function Footer() {
             <p className="text-foreground/60 text-sm">
               Technical Society for Innovation & Excellence
             </p>
-            <p className="text-foreground/60 text-sm mt-2">IIIT Allahabad</p>
+            <a
+              href="https://iiita.ac.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/60 text-sm mt-2 hover:text-foreground transition"
+            >
+              IIIT Allahabad
+            </a>
           </div>
 
           {/* Quick Links */}
