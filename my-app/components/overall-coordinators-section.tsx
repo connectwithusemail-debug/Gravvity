@@ -29,7 +29,7 @@ export function OverallCoordinatorsSection() {
                 avatarUrl={member.image || '/placeholder-avatar.svg'}
                 socials={{
                   linkedin: member.socials?.linkedin,
-                  instagram: member.socials?.instagram,
+                  // instagram: member.socials?.instagram,
                   x: member.socials?.twitter,
                 }}
                 showUserInfo={true}
