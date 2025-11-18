@@ -72,15 +72,11 @@ export default function WingsPage() {
                         className="h-full w-full rounded-2xl"
                         innerClassName="h-full w-full flex items-center justify-center rounded-2xl p-3 sm:p-4 md:p-5 bg-slate-950/60 overflow-hidden"
                       >
-                        {AnimationComponent ? (
+                        <div className="w-full h-full flex items-center justify-center">
                           <div className="w-full h-full flex items-center justify-center">
-                            <div className="w-full h-full max-w-[460px] flex items-center justify-center">
-                              <AnimationComponent />
-                            </div>
+                            {AnimationComponent ? <AnimationComponent /> : wing.icon}
                           </div>
-                        ) : (
-                          <span className="text-9xl">{wing.icon}</span>
-                        )}
+                        </div>
                       </MagicBorderExact>
                     </div>
                   </div>
