@@ -40,12 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <header>
+      <head>
         <meta
           name="google-site-verification"
           content="jm4pb03r3m47iY5AeinV_DM-fW8lHKPAcOYaLOOChMI"
         />
-      </header>
+      </head>
       <body className={`font-sans antialiased bg-background text-foreground`}>
         {/* Global background effect */}
         <div className="fixed inset-0 z-0">
