@@ -28,7 +28,6 @@ interface ProfileCardProps {
     facebook?: string; // deprecated/unused
     whatsapp?: string; // deprecated/unused
     x?: string; // X (Twitter) profile URL
-    twitter?: string; // legacy alias for X
   };
 }
 
@@ -418,9 +417,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   {(() => {
                     const linkedInHref = socials?.linkedin || '#';
                     const instaHref = socials?.instagram || '#';
-                    // Prefer explicit x, else fall back to twitter
-                    const xUrl = socials?.x || socials?.twitter;
-                    const xHref = xUrl || '#';
+                    const xHref = socials?.x || '#';
                     // Facebook removed per request
                     return (
                       <div className="pc-socials">
@@ -444,10 +441,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         </a>
                         <a
                           href={xHref}
-                          className={`pc-social${xUrl ? '' : ' is-disabled'}`}
+                          className={`pc-social${socials?.x ? '' : ' is-disabled'}`}
                           aria-label="X"
-                          target={xUrl ? '_blank' : undefined}
-                          rel={xUrl ? 'noopener noreferrer' : undefined}
+                          target={socials?.x ? '_blank' : undefined}
+                          rel={socials?.x ? 'noopener noreferrer' : undefined}
                         >
                           <X size={26} />
                         </a>
