@@ -71,7 +71,7 @@ export function EventForm({ event, onSubmit, onCancel }: EventFormProps) {
     e.preventDefault()
     const payload = { ...event, ...formData }
     if (!payload.image) {
-      payload.image = '/gravity-logo.ico'
+      payload.image = '/gravity-logo.png'
     }
     onSubmit(payload)
   }

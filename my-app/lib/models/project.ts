@@ -8,7 +8,7 @@ const ProjectSchema = new Schema(
     link: { type: String },
     githubLink: { type: String },
     devfolioLink: { type: String },
-    image: { type: String, default: '/gravity-logo.ico' },
+    image: { type: String, default: '/gravity-logo.png' },
     technologies: { type: [String], default: [] },
     tags: { type: [String], default: [] },
   },

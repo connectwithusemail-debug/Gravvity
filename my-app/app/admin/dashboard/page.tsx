@@ -381,7 +381,7 @@ export default function AdminDashboard() {
                   {projects.map((p) => (
                     <div key={p.id} className="card-glow p-4 flex items-center gap-4">
                       <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-card border border-border">
-                        <img src={p.image || '/gravity-logo.ico'} alt={p.title} className="w-full h-full object-cover" />
+                        <img src={p.image || '/gravity-logo.png'} alt={p.title} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1">
                         <div className="font-semibold">{p.title}</div>

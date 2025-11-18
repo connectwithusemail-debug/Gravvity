@@ -74,7 +74,11 @@ export default function WingsPage() {
                       >
                         <div className="w-full h-full flex items-center justify-center">
                           <div className="w-full h-full flex items-center justify-center">
-                            {AnimationComponent ? <AnimationComponent /> : wing.icon}
+                            {AnimationComponent ? (
+                              <AnimationComponent />
+                            ) : (
+                              wing.icon
+                            )}
                           </div>
                         </div>
                       </MagicBorderExact>
@@ -87,8 +91,10 @@ export default function WingsPage() {
                     data-aos-anchor-placement="top-bottom"
                     style={{ animationDelay: "0.1s" }}
                   >
-                    <div className="text-5xl mb-4">{wing.icon}</div>
-                    <h2 className="text-4xl font-bold mb-4">{wing.name}</h2>
+                    <div className="text-5xl mb-4 gap-3 flex justify-center items-center">
+                      <span className="mb-3">{wing.icon}</span>
+                      <h2 className="text-4xl font-bold mb-4">{wing.name}</h2>
+                    </div>
                     <p className="text-lg text-foreground/70 leading-relaxed mb-6">
                       {wing.description}
                     </p>

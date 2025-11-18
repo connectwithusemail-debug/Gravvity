@@ -148,7 +148,7 @@ export default function BlogsPage() {
                 <div className="relative w-full h-[75%] overflow-hidden bg-card flex items-center justify-center rounded-t-lg">
                   <div className="rounded-full bg-black/80 p-3 transition-transform duration-300 group-hover:scale-105">
                     <img
-                      src="/gravity-logo.ico"
+                      src="/gravity-logo.png"
                       alt="Gravity logo"
                       className="w-40 h-40 object-contain"
                     />

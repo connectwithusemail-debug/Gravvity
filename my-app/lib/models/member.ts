@@ -11,7 +11,7 @@ const MemberSchema = new Schema(
       },
     },
     bio: { type: String, default: '' },
-    image: { type: String, default: '/gravity-logo.ico' },
+    image: { type: String, default: '/gravity-logo.png' },
     isOverallCoordinator: { type: Boolean, default: false },
     isFacultyCoordinator: { type: Boolean, default: false },
     socials: {

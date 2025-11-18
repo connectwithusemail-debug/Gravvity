@@ -56,11 +56,11 @@ export default function EventsPage() {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Event Image */}
-                <div className="relative w-full h-[75%] overflow-hidden">
+                <div className="relative w-full h-[75%] overflow-hidden flex items-center justify-center bg-black">
                   <img
                     src={event.image || "/placeholder.svg?key=event"}
                     alt={event.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-55 h-55 object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
 

@@ -96,7 +96,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
     e.preventDefault()
     const payload = { ...member, ...formData }
     if (!payload.image) {
-      payload.image = '/gravity-logo.ico'
+      payload.image = '/gravity-logo.png'
     }
     onSubmit(payload)
   }

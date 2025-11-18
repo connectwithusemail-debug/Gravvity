@@ -104,7 +104,7 @@ export default function IntroVideo({ onFinish }: { onFinish?: () => void }) {
       {isLoading && (
         <div className="intro-loader" role="status" aria-live="polite">
           <div className="loader-logo" aria-hidden="true">
-            <img src="/gravity-logo.png" alt="" />
+            <img src="/gravity-logo.ico" alt="" />
           </div>
           <p className="loader-text">Loading...</p>
         </div>

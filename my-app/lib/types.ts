@@ -2,7 +2,7 @@ export interface Wing {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  icon: React.ReactElement;
   color: string;
   animationComponent?: React.ComponentType;
 }

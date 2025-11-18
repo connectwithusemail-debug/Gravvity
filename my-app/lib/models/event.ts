@@ -6,7 +6,7 @@ const EventSchema = new Schema(
     date: { type: String, required: true },
     description: { type: String, required: true },
     wing: { type: String, required: true },
-    image: { type: String, default: '/gravity-logo.ico' },
+    image: { type: String, default: '/gravity-logo.png' },
   },
   {
     timestamps: true,

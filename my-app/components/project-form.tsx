@@ -67,7 +67,7 @@ export function ProjectForm({ onSubmit, onCancel }: { onSubmit: (p: ProjectInput
       </div>
       <div>
         <label className="block text-sm font-semibold mb-1">Image URL</label>
-        <input value={image} onChange={(e) => setImage(e.target.value)} placeholder="Leave empty to use /gravity-logo.ico" className="w-full px-3 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-purple-500" />
+        <input value={image} onChange={(e) => setImage(e.target.value)} placeholder="Leave empty to use /gravity-logo.png" className="w-full px-3 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-purple-500" />
       </div>
       <div>
         <label className="block text-sm font-semibold mb-1">Tags</label>
