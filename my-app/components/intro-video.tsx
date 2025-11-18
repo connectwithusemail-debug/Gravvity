@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import "./intro-video.css";
-
-const STORAGE_KEY = "introVideoSeenAt";
-const EXPIRY_MS = 24 * 60 * 60 * 1000;
+import {
+  INTRO_VIDEO_EXPIRY_MS,
+  INTRO_VIDEO_STORAGE_KEY,
+} from "@/lib/intro-video-config";
 
 export default function IntroVideo({ onFinish }: { onFinish?: () => void }) {
   const [shouldShow, setShouldShow] = useState<boolean>(false);
@@ -31,10 +32,10 @@ export default function IntroVideo({ onFinish }: { onFinish?: () => void }) {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = localStorage.getItem(INTRO_VIDEO_STORAGE_KEY);
       const ts = raw ? Number(raw) : 0;
       const now = Date.now();
-      if (!ts || Number.isNaN(ts) || now - ts > EXPIRY_MS) {
+      if (!ts || Number.isNaN(ts) || now - ts > INTRO_VIDEO_EXPIRY_MS) {
         setShouldShow(true);
       }
     } catch (e) {
@@ -63,10 +64,9 @@ export default function IntroVideo({ onFinish }: { onFinish?: () => void }) {
     }
   }, [shouldShow, videoSrc]);
 
-
   function handleSkip() {
     try {
-      localStorage.setItem(STORAGE_KEY, String(Date.now()));
+      localStorage.setItem(INTRO_VIDEO_STORAGE_KEY, String(Date.now()));
     } catch (e) {}
 
     setAnimating(true);
@@ -113,8 +113,12 @@ export default function IntroVideo({ onFinish }: { onFinish?: () => void }) {
       <video
         ref={videoRef}
         className={`intro-video ${
-          videoSrc === "/introvideo.mp4" ? "intro-video-desktop" : "intro-video-mobile"
-        } ${animating ? "intro-video-hidden" : ""} ${isLoading ? "video-hidden" : ""}`}
+          videoSrc === "/introvideo.mp4"
+            ? "intro-video-desktop"
+            : "intro-video-mobile"
+        } ${animating ? "intro-video-hidden" : ""} ${
+          isLoading ? "video-hidden" : ""
+        }`}
         src={videoSrc}
         poster="/gravity-logo.svg"
         playsInline

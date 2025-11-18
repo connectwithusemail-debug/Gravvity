@@ -96,7 +96,7 @@ export function Footer() {
                 <Github size={20} />
               </a>
               <a
-                href="https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Aorganization%3A88675450&keywords=gravity%2C%20iiit%20allahabad&origin=RICH_QUERY_SUGGESTION&position=0&searchId=2d92fe41-6498-4e26-91de-097b6b4e75d2&sid=Jg&spellCorrectionEnabled=false"
+                href="https://www.linkedin.com/company/gravity-iiit-allahabad/"
                 aria-label="Gravity on LinkedIn"
                 className="text-foreground/60 hover:text-primary transition"
                 target="_blank"
@@ -114,7 +114,7 @@ export function Footer() {
                 <Instagram size={20} />
               </a>
               <a
-                href="/contact"
+                href="mailto:gravity@iiita.ac.in"
                 aria-label="Contact Gravity"
                 className="text-foreground/60 hover:text-primary transition"
               >

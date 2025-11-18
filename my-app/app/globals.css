@@ -362,3 +362,10 @@
     }
   }
 }
+
+
+
+*{
+  scroll-behavior: smooth;
+}
+

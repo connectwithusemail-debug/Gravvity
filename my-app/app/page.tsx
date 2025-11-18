@@ -9,37 +9,41 @@ import { OverallCoordinatorsSection } from "@/components/overall-coordinators-se
 import { FacultyCoordinatorsSection } from "@/components/faculty-coordinators-section";
 import IntroVideo from "@/components/intro-video";
 import { useState, useEffect, JSX } from "react";
-
-const STORAGE_KEY = "introVideoSeenAt";
-const EXPIRY_MS =60 * 60 * 1000;
+import {
+  INTRO_VIDEO_EXPIRY_MS,
+  INTRO_VIDEO_STORAGE_KEY,
+} from "@/lib/intro-video-config";
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState<boolean>(false);
   const [showContent, setShowContent] = useState<boolean>(false);
 
   useEffect(() => {
-    // decide whether to show intro based on query param or localStorage
     try {
       const params = new URLSearchParams(window.location.search);
       const introParam = params.get("intro");
 
       if (introParam === "reset") {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(INTRO_VIDEO_STORAGE_KEY);
         setShowIntro(true);
         setShowContent(false);
         return;
       }
 
-      if (introParam === "1" || introParam === "true" || introParam === "force") {
+      if (
+        introParam === "1" ||
+        introParam === "true" ||
+        introParam === "force"
+      ) {
         setShowIntro(true);
         setShowContent(false);
         return;
       }
 
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = localStorage.getItem(INTRO_VIDEO_STORAGE_KEY);
       const ts = raw ? Number(raw) : 0;
       const now = Date.now();
-      if (!ts || Number.isNaN(ts) || now - ts > EXPIRY_MS) {
+      if (!ts || Number.isNaN(ts) || now - ts > INTRO_VIDEO_EXPIRY_MS) {
         setShowIntro(true);
         setShowContent(false);
       } else {
@@ -70,7 +74,7 @@ export default function Home() {
       <main className="bg-background overflow-x-hidden">
         <HeroSection />
         <AboutSection />
-        <WingsPage />
+        <WingsPage/>
         <FacultyCoordinatorsSection />
         <OverallCoordinatorsSection />
       </main>

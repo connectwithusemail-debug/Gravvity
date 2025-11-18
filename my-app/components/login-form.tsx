@@ -1,33 +1,33 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useAdminStore } from "@/hooks/use-admin-store"
-import { useRouter } from "next/navigation"
-import MagicButton from "@/components/magic-button"
+import { FC, useState } from "react";
+import { useAdminStore } from "@/hooks/use-admin-store";
+import { useRouter } from "next/navigation";
+import MagicButton from "@/components/magic-button";
 
 export function AdminLoginForm() {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const { login } = useAdminStore()
-  const router = useRouter()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login, isLoading } = useAdminStore();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const ok = await login(username, password)
+      const ok = await login(username, password);
       if (ok) {
-        router.push("/admin/dashboard")
+        router.push("/admin/dashboard");
       } else {
-        setError('Invalid credentials. Hint: username is "admin"')
+        setError('Invalid credentials. Hint: username is "admin"');
       }
     } catch (err) {
-      console.error("Login failed", err)
-      setError('Login failed due to network error')
+      console.error("Login failed", err);
+      setError("Login failed due to network error");
     }
-  }
+  };
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -55,10 +55,15 @@ export function AdminLoginForm() {
           />
         </div>
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <MagicButton type="submit" className="w-full" heightClass="h-11">
-          Login
+        <MagicButton
+          type="submit"
+          disabled={isLoading}
+          className="w-full"
+          heightClass="h-11"
+        >
+          {!isLoading ? "Login" : "Loading..."}
         </MagicButton>
       </form>
     </div>
-  )
+  );
 }

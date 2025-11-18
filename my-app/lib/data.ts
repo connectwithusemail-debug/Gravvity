@@ -1,4 +1,13 @@
-import type { Wing, Member, Event, Project, BlogPost } from "./types"
+import type { Wing, Member, Event, Project, BlogPost } from "./types";
+import {
+  CompetitiveCodingAnimation,
+  WebDevelopmentAnimation,
+  DesignAnimation,
+  FossAnimation,
+  AIAnimation,
+  BlockchainAnimation,
+  MetaverseAnimation,
+} from "@/components/wing-animations";
 
 export const wings: Wing[] = [
   {
@@ -7,6 +16,7 @@ export const wings: Wing[] = [
     description: "Master algorithms and data structures through contests",
     icon: "⚡",
     color: "from-blue-500 to-cyan-500",
+    animationComponent: CompetitiveCodingAnimation,
   },
   {
     id: "2",
@@ -14,6 +24,7 @@ export const wings: Wing[] = [
     description: "Build modern web applications with cutting-edge technologies",
     icon: "🌐",
     color: "from-green-500 to-emerald-500",
+    animationComponent: WebDevelopmentAnimation,
   },
   {
     id: "3",
@@ -21,6 +32,7 @@ export const wings: Wing[] = [
     description: "Create stunning visual experiences and UI/UX designs",
     icon: "🎨",
     color: "from-pink-500 to-rose-500",
+    animationComponent: DesignAnimation,
   },
   {
     id: "4",
@@ -28,6 +40,7 @@ export const wings: Wing[] = [
     description: "Contribute to open-source software and communities",
     icon: "🔓",
     color: "from-yellow-500 to-orange-500",
+    animationComponent: FossAnimation,
   },
   {
     id: "5",
@@ -35,6 +48,7 @@ export const wings: Wing[] = [
     description: "Explore privacy-preserving AI and machine learning",
     icon: "🤖",
     color: "from-purple-500 to-violet-500",
+    animationComponent: AIAnimation,
   },
   {
     id: "6",
@@ -42,6 +56,7 @@ export const wings: Wing[] = [
     description: "Build decentralized applications and smart contracts",
     icon: "⛓️",
     color: "from-orange-500 to-red-500",
+    animationComponent: BlockchainAnimation,
   },
   {
     id: "7",
@@ -49,8 +64,9 @@ export const wings: Wing[] = [
     description: "Create immersive virtual reality and metaverse experiences",
     icon: "🌌",
     color: "from-indigo-500 to-purple-500",
+    animationComponent: MetaverseAnimation,
   },
-]
+];
 
 export const defaultMembers: Member[] = [
   {
@@ -103,9 +119,9 @@ export const defaultMembers: Member[] = [
     role: "coordinator",
     wing: "Competitive Coding",
     bio: "Passionate about algorithms and problem-solving",
-  // Missing asset; fallback to existing placeholder to stop repeated 404 fetch attempts.
-  image: "/placeholder-avatar.svg",
-     isOverallCoordinator: true,
+    // Missing asset; fallback to existing placeholder to stop repeated 404 fetch attempts.
+    image: "/placeholder-avatar.svg",
+    isOverallCoordinator: true,
     socials: {
       github: "#",
       linkedin: "#",
@@ -118,8 +134,8 @@ export const defaultMembers: Member[] = [
     role: "coordinator",
     wing: "Web Development",
     bio: "Full-stack developer with 3 years experience",
-  image: "/placeholder-avatar.svg",
-     isOverallCoordinator: true,
+    image: "/placeholder-avatar.svg",
+    isOverallCoordinator: true,
     socials: {
       github: "#",
       linkedin: "#",
@@ -132,8 +148,8 @@ export const defaultMembers: Member[] = [
     role: "coordinator",
     wing: "Design",
     bio: "UI/UX designer and creative thinker",
-  image: "/placeholder-avatar.svg",
-     
+    image: "/placeholder-avatar.svg",
+
     socials: {
       github: "#",
       linkedin: "#",
@@ -146,7 +162,7 @@ export const defaultMembers: Member[] = [
     role: "coordinator",
     wing: "Private AI",
     bio: "AI researcher and machine learning enthusiast",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
     socials: {
       github: "#",
       linkedin: "#",
@@ -159,7 +175,7 @@ export const defaultMembers: Member[] = [
     role: "member",
     wing: "Competitive Coding",
     bio: "Enthusiastic coder",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
     socials: {
       github: "#",
       linkedin: "#",
@@ -172,7 +188,7 @@ export const defaultMembers: Member[] = [
     role: "member",
     wing: "Web Development",
     bio: "React specialist",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
     socials: {
       github: "#",
       linkedin: "#",
@@ -185,14 +201,14 @@ export const defaultMembers: Member[] = [
     role: "member",
     wing: "Design",
     bio: "Creative designer",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
     socials: {
       github: "#",
       linkedin: "#",
       twitter: "#",
     },
   },
-]
+];
 
 export const defaultEvents: Event[] = [
   {
@@ -201,7 +217,7 @@ export const defaultEvents: Event[] = [
     date: "2024-12-15",
     description: "Annual coding competition with exciting prizes",
     wing: "Competitive Coding",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
   {
     id: "2",
@@ -209,7 +225,7 @@ export const defaultEvents: Event[] = [
     date: "2024-12-20",
     description: "Learn modern web development frameworks",
     wing: "Web Development",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
   {
     id: "3",
@@ -217,7 +233,7 @@ export const defaultEvents: Event[] = [
     date: "2024-12-25",
     description: "Intensive design thinking and prototyping",
     wing: "Design",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
   {
     id: "4",
@@ -225,7 +241,7 @@ export const defaultEvents: Event[] = [
     date: "2024-12-25",
     description: "Intensive design thinking and prototyping",
     wing: "Design",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
   {
     id: "5",
@@ -233,9 +249,9 @@ export const defaultEvents: Event[] = [
     date: "2024-12-25",
     description: "Intensive design thinking and prototyping",
     wing: "Design",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
-]
+];
 
 export const defaultProjects: Project[] = [
   {
@@ -245,7 +261,7 @@ export const defaultProjects: Project[] = [
     wing: "Competitive Coding",
     technologies: ["React", "Node.js", "MongoDB"],
     link: "#",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
   {
     id: "2",
@@ -254,7 +270,7 @@ export const defaultProjects: Project[] = [
     wing: "Design",
     technologies: ["Next.js", "Canvas API", "WebSocket"],
     link: "#",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
   {
     id: "3",
@@ -263,8 +279,28 @@ export const defaultProjects: Project[] = [
     wing: "Blockchain",
     technologies: ["Solidity", "React", "Web3.js"],
     link: "#",
-  image: "/placeholder-avatar.svg",
+    image: "/placeholder-avatar.svg",
   },
-]
+];
 
-export const defaultBlogs: BlogPost[] = []
+export const defaultBlogs: BlogPost[] = [
+  {
+    id: "1",
+    title: "Getting Started with Competitive Programming",
+    content:
+      "A comprehensive guide to start your competitive programming journey...",
+    author: "Aditya Sharma",
+    date: "2024-12-01",
+    category: "Competitive Coding",
+    image: "/placeholder-avatar.svg",
+  },
+  {
+    id: "2",
+    title: "Web3 Development Essentials",
+    content: "Everything you need to know about building dApps...",
+    author: "Priya Verma",
+    date: "2024-11-28",
+    category: "Blockchain",
+    image: "/placeholder-avatar.svg",
+  },
+];

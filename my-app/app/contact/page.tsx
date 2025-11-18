@@ -55,7 +55,7 @@ export default function ContactPage() {
           {/* Header */}
           <div className="text-center mb-16 slide-in-up">
             <h1 className="text-5xl md:text-6xl font-bold gradient-text mb-4">Get In Touch</h1>
-            <p className="text-xl text-foreground/70">We'd love to hear from you</p>
+            <p className="text-xl text-center text-foreground/70">We'd love to hear from you</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
@@ -73,18 +73,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="card-glow p-6 hover:shadow-lg transition-all">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--brand-from)] to-[var(--brand-to)] flex items-center justify-center shrink-0">
-                    <MapPin size={24} className="text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-1">Location</h3>
-                    <p className="text-foreground/70">IIIT ALLAHABAD , PRAYAGRAJ</p>
-                  </div>
-                </div>
-              </div>
-
+              
               <div className="card-glow p-6 hover:shadow-lg transition-all">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--brand-from)] to-[var(--brand-to)] flex items-center justify-center shrink-0">
@@ -159,39 +148,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* FAQ Section */}
-          <div className="mt-20 slide-in-up">
-            <h2 className="text-3xl font-bold gradient-text mb-8 text-center">Frequently Asked Questions</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                {
-                  q: "How can I join Gravity?",
-                  a: "Fill out the contact form above and mention your interest in joining. Our team will reach out with more details!",
-                },
-                {
-                  q: "How often do the Events occur ?",
-                  a: "Events are scheduled regularly , of different wings in an interval of 1-2 months",
-                },
-                {
-                  q: "Can I join multiple wings?",
-                  a: "We encourage members to explore different wings and expand their skills.",
-                },
-                {
-                  q: "When do you host events?",
-                  a: "Events are hosted regularly throughout the year. Check our Events page for the schedule!",
-                },
-              ].map((faq, index) => (
-                <div
-                  key={index}
-                  className="card-glow p-6 hover:shadow-lg transition-all"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <h3 className="font-bold text-lg mb-2">{faq.q}</h3>
-                  <p className="text-foreground/70 text-sm">{faq.a}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          
         </div>
       </main>
       <Footer />
