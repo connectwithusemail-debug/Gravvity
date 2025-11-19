@@ -147,7 +147,11 @@
 @layer components {
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r;
-    background-image: linear-gradient(135deg, rgb(166, 140, 255) 0%, rgb(138, 232, 255) 100%);
+    background-image: linear-gradient(
+      135deg,
+      rgb(166, 140, 255) 0%,
+      rgb(138, 232, 255) 100%
+    );
   }
 
   .glow-effect {
@@ -157,7 +161,11 @@
 
   /* Button gradient: dark → light purple (uses brand vars) */
   .btn-gradient {
-    background-image: linear-gradient(135deg, var(--brand-from) 0%, var(--brand-to) 100%);
+    background-image: linear-gradient(
+      135deg,
+      var(--brand-from) 0%,
+      var(--brand-to) 100%
+    );
     color: #ffffff;
   }
 
@@ -191,17 +199,37 @@
 
   /* Concentric ring style for Gravity logo */
   .gravity-logo-rings {
-    background:
-      radial-gradient(circle at center, rgba(124,92,255,0.35) 0%, transparent 55%),
-      radial-gradient(circle at center, rgba(124,92,255,0.15) 0%, transparent 70%),
-      radial-gradient(circle at center, rgba(85,185,231,0.25) 0%, transparent 85%),
-      linear-gradient(135deg, rgba(124,92,255,0.15), rgba(85,185,231,0.15));
-    border: 1px solid rgba(124,92,255,0.25);
+    background: radial-gradient(
+        circle at center,
+        rgba(124, 92, 255, 0.35) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at center,
+        rgba(124, 92, 255, 0.15) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        circle at center,
+        rgba(85, 185, 231, 0.25) 0%,
+        transparent 85%
+      ),
+      linear-gradient(
+        135deg,
+        rgba(124, 92, 255, 0.15),
+        rgba(85, 185, 231, 0.15)
+      );
+    border: 1px solid rgba(124, 92, 255, 0.25);
     backdrop-filter: blur(4px);
   }
 
   .shimmer {
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
     background-size: 200% 100%;
     animation: shimmer 3s infinite;
   }
@@ -281,7 +309,12 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
     animation: shine 3s infinite;
   }
 
@@ -333,9 +366,9 @@
   }
 }
 
-*::selection{
+*::selection {
   background-color: #544b543f;
-  color:white;
+  color: white;
 }
 
 /* Ensure page surfaces don't block the global grid; keep cards opaque */
@@ -348,7 +381,8 @@
 
 /* Background ripple animation tokens */
 @theme inline {
-  --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1 var(--delay, 0ms);
+  --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1
+    var(--delay, 0ms);
 
   @keyframes cell-ripple {
     0% {
@@ -363,9 +397,38 @@
   }
 }
 
-
-
-*{
+* {
   scroll-behavior: smooth;
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}

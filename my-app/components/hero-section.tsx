@@ -9,7 +9,7 @@ import { LettersPullUp } from "@/components/Text-Effect";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden pt-8 md:pt-12">
+    <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden pt-4 md:pt-8">
       {/* Liquid Ether background covering the whole hero */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <LiquidEther
@@ -52,7 +52,7 @@ export function HeroSection() {
                 <img
                   src="/gravity-logo.ico"
                   alt="Gravity Logo"
-                  className="w-25 h-25 object-contain drop-shadow-[0_0_12px_rgba(124,92,255,0.35)] float-animation transition-all duration-300 ease-out hover:scale-105 hover:-rotate-2 hover:drop-shadow-[0_0_18px_rgba(124,92,255,0.6)] cursor-pointer"
+                  className="sm:w-25 sm:h-25 h-20 w-20 object-contain drop-shadow-[0_0_12px_rgba(124,92,255,0.35)] float-animation transition-all duration-300 ease-out hover:scale-105 hover:-rotate-2 hover:drop-shadow-[0_0_18px_rgba(124,92,255,0.6)] cursor-pointer"
                 />
               </div>
             );
@@ -63,13 +63,13 @@ export function HeroSection() {
         <div>
           <LettersPullUp
             text={`GRAVITY`}
-            className="gradient-text select-none"
+            className="gradient-text  select-none"
           />
           <LettersPullUp text={`TECHNICAL SOCIETY`} className="select-none" />
         </div>
 
         {/* Subheading */}
-        <p className="text-xl md:text-2xl selection:bg-[#65555563] selection:text-white  text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-sm md:text-2xl selection:bg-[#65555563] selection:text-white  text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed">
           Seven wings of innovation: Competitive Coding, Web Development,
           Design, FOSS, Private AI, Blockchain, and Metaverse
         </p>

@@ -47,7 +47,7 @@ export function BlockchainAnimation() {
     >
       <div
         className={`
-        w-full h-auto max-h-full 
+        w-full h-80 
         flex flex-col 
         transition-transform duration-300
         ${isHovered ? "scale-[1.02]" : "scale-100"}

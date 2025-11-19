@@ -39,7 +39,7 @@ export default function AdminPage() {
   return (
     <>
   <Navigation />
-      <main className="min-h-screen bg-background flex items-center justify-center px-4">
+      <main className="min-h-screen mt-10 bg-background flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="card-glow p-8 space-y-6">
             <div className="text-center">

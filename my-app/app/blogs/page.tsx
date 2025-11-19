@@ -90,7 +90,7 @@ export default function BlogsPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen mt-10 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header with search */}
           <div className="mb-10 slide-in-up">

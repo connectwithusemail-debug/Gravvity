@@ -71,10 +71,10 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <main className="bg-background overflow-x-hidden">
+      <main className="bg-background overflow-x-hidden pt-10">
         <HeroSection />
         <AboutSection />
-        <WingsPage/>
+        <WingsPage />
         <FacultyCoordinatorsSection />
         <OverallCoordinatorsSection />
       </main>

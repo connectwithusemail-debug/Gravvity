@@ -84,27 +84,27 @@ export function FossAnimation() {
             {/* Contribution Graph */}
             <div className="shrink-0">
               <div className="text-xs text-slate-400 mb-1">Recent Activity</div>
-              <div className="flex gap-0.5 justify-between">
-                {activity.map((val, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 rounded-sm transition-all duration-300"
-                    style={{
-                      height: `${20 + val * 20}px`,
-                      backgroundColor:
-                        val > 0.7
-                          ? "#f59e0b"
-                          : val > 0.4
-                          ? "#fb923c"
-                          : "#fed7aa",
-                      opacity: 0.3 + val * 0.7,
-                    }}
-                  />
-                ))}
+              {/* Fixed height container to prevent layout shift */}
+              <div className="flex gap-0.5 justify-between h-12 items-end">
+                {activity.map((val, i) => {
+                  const bg =
+                    val > 0.7 ? "#f59e0b" : val > 0.4 ? "#fb923c" : "#fed7aa";
+                  return (
+                    <div
+                      key={i}
+                      className="flex-1 h-full origin-bottom rounded-sm transition-all duration-500 will-change-transform"
+                      style={{
+                        backgroundColor: bg,
+                        opacity: 0.3 + val * 0.7,
+                        transform: `scaleY(${0.5 + val * 0.5})`,
+                      }}
+                    />
+                  );
+                })}
               </div>
             </div>
 
-            {/* Recent Commits */}
+            {/* Recent Commits (fixed flex space, internal scroll) */}
             <div className="space-y-1 overflow-y-auto min-h-0 flex-1">
               {[
                 {
