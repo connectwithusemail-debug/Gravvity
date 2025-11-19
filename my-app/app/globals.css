@@ -432,3 +432,48 @@
     background-position: 100% 50%;
   }
 }
+
+
+
+.custom-scrollbar {
+  scrollbar-width: thin;            
+  scrollbar-color: var(--accent) transparent;
+}
+
+/* WebKit */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+  border-radius: 8px;
+  border: 2px solid var(--background);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--accent) 10%, var(--primary) 100%);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: var(--primary);
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Optional: darker track in dark mode */
+.dark .custom-scrollbar {
+  scrollbar-color: var(--accent) var(--card);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: oklch(from var(--card) l c h / 0.4);
+}

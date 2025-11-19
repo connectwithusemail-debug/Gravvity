@@ -79,7 +79,7 @@ function MembersContent() {
                     handle={member.name?.toLowerCase().replace(/\s+/g, "") || "coordinator"}
                     status={member.role}
                     contactText="Contact"
-                    avatarUrl={member.image || "/placeholder-avatar.svg"}
+                    avatarUrl={member.image || "/gravity-logo.png"}
                     socials={{
                       linkedin: member.socials?.linkedin,
                       x: member.socials?.twitter,

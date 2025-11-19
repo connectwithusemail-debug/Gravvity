@@ -18,21 +18,21 @@ function EventCard({ event, index, setSelected }: EventCardProps) {
   return (
     <div
       key={event.id}
-      className="card-glow overflow-hidden group slide-in-up flex flex-col mx-auto w-full max-w-[440px]"
+      className="card-glow overflow-hidden group slide-in-up flex flex-col hover:scale-101 mx-auto w-full max-w-[440px] h-full"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Image Section */}
-      <div className="relative w-full aspect-3/4 md:aspect-2/2 bg-black overflow-hidden">
+      <div className="relative w-full  aspect-square sm:aspect-3/2 md:aspect-square bg-black overflow-hidden">
         <img
           src={event.image || "/gravity-logo.png"}
           alt={event.title}
           loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-110"
+          className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 ease-out"
         />
       </div>
 
       {/* Content */}
-      <div className="px-5 py-4 sm:px-6 sm:py-5 flex flex-col">
+      <div className="px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 flex flex-col flex-1">
         <div className="inline-block px-3 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/30 text-xs font-medium text-purple-300 mb-2">
           {event.wing}
         </div>
@@ -64,6 +64,8 @@ function EventCard({ event, index, setSelected }: EventCardProps) {
     </div>
   );
 }
+
+
 
 export default function EventsPage() {
   const events = useEvents();
@@ -98,20 +100,20 @@ export default function EventsPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen mt-10 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <main className="min-h-screen pt-20 sm:pt-24 md:pt-28 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16 lg:py-20">
           {/* Header */}
-          <div className="text-center mb-16 slide-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold gradient-text mb-4">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16 slide-in-up">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold gradient-text mb-3 sm:mb-4">
               Events & Activities
             </h1>
-            <p className="text-xl text-foreground/70">
+            <p className="text-base sm:text-lg md:text-xl text-foreground/70 px-4">
               Join our exciting events and competitions
             </p>
           </div>
 
           {/* Events Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {visibleEvents.map((event, index) => (
               <EventCard
                 key={event.id}
@@ -123,11 +125,11 @@ export default function EventsPage() {
           </div>
 
           {/* Toggle show all */}
-          <div className="mt-8 flex justify-center">
+          <div className="mt-6 sm:mt-8 flex justify-center px-4">
             {sorted.length > VISIBLE_LIMIT && (
               <button
                 onClick={() => setShowAll((s) => !s)}
-                className="px-6 py-2 rounded-lg bg-card border border-border hover:bg-card/80 transition text-sm font-medium"
+                className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg bg-card border border-border hover:bg-card/80 transition-all text-sm sm:text-base font-medium hover:scale-105"
               >
                 {showAll ? "Show Less" : `Show All (${sorted.length})`}
               </button>
@@ -137,43 +139,43 @@ export default function EventsPage() {
           {/* Modal Overlay for selected event */}
           {selected && (
             <div
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-sm"
               onClick={() => setSelected(null)}
               role="dialog"
               aria-modal="true"
               aria-label={selected.title}
             >
               <div
-                className="relative w-[900px] max-w-[95vw] h-[40vh] card-glow bg-card border border-border p-0 overflow-hidden"
+                className="relative card-glow bg-card border border-border w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Close button */}
                 <button
                   onClick={() => setSelected(null)}
-                  className="absolute top-3 right-3 z-10 rounded-md p-1.5 bg-black/40 hover:bg-black/60 text-white"
+                  className="absolute top-2 right-2 sm:top-3 sm:right-3 z-20 rounded-lg p-1.5 sm:p-2 bg-black/70 hover:bg-black/90 text-white transition-colors shadow-lg"
                   aria-label="Close"
                 >
-                  <X size={18} />
+                  <X size={18} className="sm:w-5 sm:h-5" />
                 </button>
 
-                {/* Two-column layout: image left, text right */}
-                <div className="grid grid-cols-1 md:grid-cols-[33%_67%] h-full">
+                {/* Responsive layout: stack on mobile, side-by-side on desktop */}
+                <div className="flex flex-col md:flex-row max-h-[90vh] overflow-y-auto custom-scrollbar">
                   {/* Left: Image */}
-                  <div className="relative h-full overflow-hidden bg-black/20">
+                  <div className="relative flex items-center justify-center bg-black/20 p-4 sm:p-6 md:p-8 lg:p-10 md:w-1/2 md:min-h-[500px]">
                     <img
-                      src={selected.image || "/placeholder.svg?key=event"}
+                      src={selected.image || "/gravity-logo.png"}
                       alt={selected.title}
                       loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover object-center transform-gpu transition-transform duration-500 ease-out hover:scale-105"
+                      className="w-full h-auto max-h-[250px] sm:max-h-[300px] md:max-h-[450px] object-contain rounded-xl transition-transform duration-500 ease-out hover:scale-105"
                     />
                   </div>
 
                   {/* Right: Text content */}
-                  <div className="flex flex-col h-full p-5 sm:p-6 md:p-7">
-                    <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-foreground">
+                  <div className="flex flex-col md:w-1/2 p-4 sm:p-5 md:p-6 lg:p-8 md:overflow-y-auto custom-scrollbar">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 text-foreground pr-8">
                       {selected.title}
                     </h3>
-                    <div className="flex-1 overflow-auto pr-1 text-foreground/80 leading-relaxed whitespace-pre-line">
+                    <div className="text-xs sm:text-sm md:text-base text-foreground/80 leading-relaxed whitespace-pre-line">
                       {selected.description}
                     </div>
                   </div>
@@ -183,18 +185,20 @@ export default function EventsPage() {
           )}
 
           {/* Call to Action */}
-          <div className="mt-16 card-glow p-8 text-center slide-in-up">
-            <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-            <p className="text-foreground/70 mb-6">
+          <div className="mt-8 sm:mt-12 md:mt-16 card-glow p-5 sm:p-6 md:p-8 text-center slide-in-up">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
+              Stay Updated
+            </h2>
+            <p className="text-sm sm:text-base text-foreground/70 mb-4 sm:mb-6 px-4">
               Subscribe to get notifications about upcoming events
             </p>
-            <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 max-w-md mx-auto px-4">
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full sm:flex-1 px-4 py-2 rounded-lg bg-card border border-border text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full sm:flex-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-card border border-border text-sm sm:text-base text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               />
               <MagicButton
                 onClick={async () => {

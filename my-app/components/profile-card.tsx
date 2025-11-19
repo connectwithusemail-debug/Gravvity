@@ -414,7 +414,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             {/* Details first */}
             <div className="pc-content">
               <div className="pc-details">
-                <h3 title={name}>{name}</h3>
+                <h3 className="p-3 text-xl  mask-radial-from-sidebar-accent-foreground" title={name}>{name}</h3>
                 {/* Subtitle removed per request */}
               </div>
             </div>
