@@ -22,10 +22,10 @@ function EventCard({ event, index, setSelected }: EventCardProps) {
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Image Section */}
-      <div className="relative w-full  aspect-square sm:aspect-3/2 md:aspect-square bg-black overflow-hidden">
+      <div className="relative w-full cursor-pointer aspect-square sm:aspect-3/2 md:aspect-square bg-black overflow-hidden">
         <img
           src={event.image || "/gravity-logo.png"}
-          alt={event.title}
+          alt={event.title} onClick={() => setSelected(event)}
           loading="lazy"
           className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 ease-out"
         />
