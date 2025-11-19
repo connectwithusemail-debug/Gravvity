@@ -70,7 +70,7 @@ function MembersContent() {
               </span>
               <span>Coordinators</span>
             </h2>
-            <div className="flex flex-wrap gap-8 justify-center">
+            <div className="flex flex-wrap gap-4 justify-center">
               {coordinators.map((member) => (
                 <div key={member.id} className="fade-in-up">
                   <ProfileCard
