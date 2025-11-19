@@ -7,9 +7,14 @@ import { Calendar, MapPin, X } from "lucide-react";
 import MagicButton from "@/components/magic-button";
 import { useEvents } from "@/hooks/use-events";
 import type { Event } from "@/lib/types";
-import { number } from "framer-motion";
 
-function EventCard({ event, index, setSelected }) {
+type EventCardProps = {
+  event: Event;
+  index: number;
+  setSelected: (e: Event | null) => void;
+};
+
+function EventCard({ event, index, setSelected }: EventCardProps) {
   return (
     <div
       key={event.id}
@@ -17,7 +22,7 @@ function EventCard({ event, index, setSelected }) {
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Image Section */}
-      <div className="relative w-full aspect-[3/4] md:aspect-[2/2] bg-black overflow-hidden">
+      <div className="relative w-full aspect-3/4 md:aspect-2/2 bg-black overflow-hidden">
         <img
           src={event.image || "/gravity-logo.png"}
           alt={event.title}
