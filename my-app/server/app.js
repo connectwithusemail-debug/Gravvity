@@ -151,6 +151,10 @@ app.post('/api/members', auth, async (req, res) => {
     const member = await Member.create(req.body)
     res.status(201).json(member)
   } catch (e) {
+    try {
+      const bodyPreview = JSON.stringify(req.body).slice(0, 1000)
+      console.error('[Members] Create failed. Body preview:', bodyPreview)
+    } catch (_) {}
     res.status(400).json({ error: e.message })
   }
 })
@@ -183,6 +187,10 @@ app.post('/api/events', auth, async (req, res) => {
     const event = await Event.create(req.body)
     res.status(201).json(event)
   } catch (e) {
+    try {
+      const bodyPreview = JSON.stringify(req.body).slice(0, 1000)
+      console.error('[Events] Create failed. Body preview:', bodyPreview)
+    } catch (_) {}
     res.status(400).json({ error: e.message })
   }
 })

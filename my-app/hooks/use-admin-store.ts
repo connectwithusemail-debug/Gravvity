@@ -150,12 +150,22 @@ export function useAdminStore() {
   const addMember = useCallback(
     async (member: Omit<Member, "id" | "createdAt">) => {
       try {
+        // Client-side validation to prevent sending incomplete payloads
+        if (!member || !member.name || !member.role) {
+          throw new Error('Member must include name and role')
+        }
+        if (member.role !== 'coordinator' && !member.wing) {
+          throw new Error('Member must include a wing unless coordinator')
+        }
         const res = await fetch(`/api/members`, {
           method: "POST",
           headers: { "Content-Type": "application/json", ...authHeaders() },
           body: JSON.stringify(member),
         });
-        if (!res.ok) throw new Error("Failed to create member");
+        if (!res.ok) {
+          const text = await res.text().catch(() => '')
+          throw new Error(`Failed to create member: ${res.status} ${text}`)
+        }
         const created = (await res.json()) as Member;
         setMembers((prev) => {
           const next = [...prev, created];
@@ -208,12 +218,19 @@ export function useAdminStore() {
   const addEvent = useCallback(
     async (event: Omit<Event, "id" | "createdAt">) => {
       try {
+        // Basic client-side validation to catch missing required fields early
+        if (!event || !event.title || !event.date || !event.wing || !event.description) {
+          throw new Error('Event payload missing required fields: title, date, wing, description')
+        }
         const res = await fetch(`/api/events`, {
           method: "POST",
           headers: { "Content-Type": "application/json", ...authHeaders() },
           body: JSON.stringify(event),
         });
-        if (!res.ok) throw new Error("Failed to create event");
+        if (!res.ok) {
+          const text = await res.text().catch(() => '')
+          throw new Error(`Failed to create event: ${res.status} ${text}`)
+        }
         const created = (await res.json()) as Event;
         setEvents((prev) => {
           const next = [...prev, created];
