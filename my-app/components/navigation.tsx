@@ -23,7 +23,6 @@ export function Navigation() {
     { href: "/projects", label: "Projects" },
     { href: "/blogs", label: "Blogs" },
     { href: "/contact", label: "Contact" },
-    { href: "/admin", label: "Admin" },
   ];
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 ">
