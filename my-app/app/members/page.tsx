@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminStore } from "@/hooks/use-admin-store";
+import { useMembers } from "@/hooks/use-members"
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Suspense, useMemo } from "react";
@@ -12,7 +12,7 @@ import MagicButton from "@/components/magic-button";
 import { X } from "lucide-react";
 
 function MembersContent() {
-  const { members } = useAdminStore();
+  const members = useMembers();
   const searchParams = useSearchParams();
   const wingFilter = searchParams.get("wing") || "";
 
@@ -70,6 +70,28 @@ function MembersContent() {
               </span>
               <span>Coordinators</span>
             </h2>
+            <div className="flex flex-wrap gap-8 justify-center">
+              {coordinators.map((member) => (
+                <div key={member.id} className="fade-in-up">
+                  <ProfileCard
+                    name={member.name}
+                    title={member.bio || member.wing}
+                    handle={member.name?.toLowerCase().replace(/\s+/g, "") || "coordinator"}
+                    status={member.role}
+                    contactText="Contact"
+                    avatarUrl={member.image || "/placeholder-avatar.svg"}
+                    socials={{
+                      linkedin: member.socials?.linkedin,
+                      x: member.socials?.twitter,
+                    }}
+                    showUserInfo={true}
+                    enableTilt={true}
+                    enableMobileTilt={false}
+                    onContactClick={() => console.log("Contact", member.name)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Members Section */}

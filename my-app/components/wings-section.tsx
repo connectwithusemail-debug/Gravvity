@@ -20,7 +20,7 @@ export function WingsSection() {
               <p className="text-foreground/60 mb-6">{wing.description}</p>
 
               <Link
-                href={`/wings/${wing.id}`}
+                href={{ pathname: '/members', query: { wing: wing.name } }}
                 className="inline-flex items-center gap-2 text-purple-400 hover:text-cyan-400 transition-colors group/link"
               >
                 View Members & Coordinators
