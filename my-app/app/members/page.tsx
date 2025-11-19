@@ -94,6 +94,7 @@ function MembersContent() {
             </div>
           </div>
 
+
           {/* Members Section */}
           <div>
             <h2 className="text-3xl font-bold mb-8 flex items-center justify-center gap-2 text-center">
