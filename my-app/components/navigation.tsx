@@ -25,13 +25,13 @@ export function Navigation() {
     { href: "/contact", label: "Contact" },
   ];
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 ">
+    <nav className="fixed top-2 left-0 right-0 z-50 ">
       <div
         className={`backdrop-blur-md backdrop-saturate-150 mx-auto max-w-7xl transition-all duration-500 [backdrop-filter:blur(12px)_saturate(150%)] ${
           scrolled
             ? "bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_1000px_rgba(124,92,255,0.25),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/10"
             : "bg-transparent shadow-[0_8px_32px_rgba(0,0,0,0.15),0_0_80px_rgba(124,92,255,0.1),inset_0_1px_1px_rgba(255,255,255,0.05)]"
-        } hover:shadow-[0_12px_480px_rgba(124,92,255,0.5),0_0_120px_rgba(124,92,255,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:bg-purple/50 hover:scale-[1.01] hover:border-purple-500/20`}
+        } hover:shadow-[0_12px_480px_rgba(124,92,255,0.5),0_0_120px_rgba(124,92,255,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:bg-purple/50 hover:scale-[1.01] hover:border-purple-500/20 rounded-2xl`}
       >
         <div className="px-6 py-4 flex justify-between items-center">
           {/* Logo */}
