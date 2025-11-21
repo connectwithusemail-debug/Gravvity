@@ -159,7 +159,7 @@ export function HeroSection() {
           <motion.div
             className={`${
               !_fm ? "cursor-pointer" : "cursor-grab"
-            } z-100 active:cursor-grabbing inline-flex `}
+            } z-100 active:cursor-grabbing inline-flex mb-2 `}
             drag
             animate={_controls}
             initial={{ x: 0, y: 0 }}
