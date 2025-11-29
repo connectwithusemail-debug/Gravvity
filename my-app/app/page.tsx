@@ -7,7 +7,10 @@ import { AboutSection } from "@/components/about-section";
 import WingsPage from "./wings/page";
 import { OverallCoordinatorsSection } from "@/components/overall-coordinators-section";
 import { FacultyCoordinatorsSection } from "@/components/faculty-coordinators-section";
-import IntroVideo from "@/components/intro-video";
+import dynamic from "next/dynamic";
+const IntroVideo = dynamic(() => import("@/components/intro-video"), {
+  ssr: false,
+});
 import { useState, useEffect, JSX } from "react";
 import {
   INTRO_VIDEO_EXPIRY_MS,

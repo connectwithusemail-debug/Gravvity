@@ -13,11 +13,13 @@ export function AOSProvider() {
 
   // Init AOS (repeatable animations)
   useEffect(() => {
+    // If the global light-mode flag is present, reduce AOS durations to be lighter.
+    const isLight = document.documentElement.dataset.light === '1'
     AOS.init({
-      duration: 700,
+      duration: isLight ? 360 : 700,
       easing: "ease-out-quart",
       once: false,
-      offset: 40, // smaller offset so elements trigger sooner
+      offset: 40,
       mirror: false,
       anchorPlacement: "top-bottom",
     })

@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AOSProvider } from "@/components/aos-provider";
+import LightModeController from "@/components/light-mode";
 import { BackgroundRippleEffect } from "@/components/Background";
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -53,6 +54,7 @@ export default function RootLayout({
           <BackgroundRippleEffect />
         </div>
         <div className="relative z-10">
+          <LightModeController />
           <AOSProvider />
           {children}
           <Analytics />

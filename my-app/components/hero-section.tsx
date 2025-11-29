@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ArrowRight, Grab } from "lucide-react";
-import Galaxy from "./Galaxy";
+const Galaxy = dynamic(() => import("./Galaxy"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 z-0" />,
+});
 import { useState, useEffect, useRef } from "react";
 import MagicButton from "@/components/magic-button";
 import { LettersPullUp } from "@/components/Text-Effect";
@@ -198,6 +202,8 @@ export function HeroSection() {
                 src="/gravity-logo.ico"
                 alt="Gravity Logo"
                 className="sm:w-25 sm:h-25 h-20 w-20 object-contain drop-shadow-[0_0_12px_rgba(124,92,255,0.35)] float-animation transition-all duration-300 ease-out hover:scale-105 hover:-rotate-2 hover:drop-shadow-[0_0_18px_rgba(124,92,255,0.6)] select-none pointer-events-none opacity-100!"
+                loading="lazy"
+                decoding="async"
                 draggable={false}
                 style={{ opacity: 1 }}
               />

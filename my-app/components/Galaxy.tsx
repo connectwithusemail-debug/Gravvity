@@ -215,8 +215,12 @@ export default function Galaxy({
     let program: Program | null = null;
 
     function resize() {
-      const scale = 1;
-      renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
+      // Cap device pixel ratio to avoid huge GL canvases on high-DPI displays
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      renderer.setSize(ctn.offsetWidth * dpr, ctn.offsetHeight * dpr);
+      // Keep CSS size equal to container to avoid layout thrash
+      gl.canvas.style.width = `${ctn.offsetWidth}px`;
+      gl.canvas.style.height = `${ctn.offsetHeight}px`;
       if (program) {
         program.uniforms.uResolution.value = new Color(
           gl.canvas.width,
@@ -260,8 +264,10 @@ export default function Galaxy({
 
     const mesh = new Mesh(gl, { geometry, program });
     let animateId: number | null = null;
+    let pausedBecauseHidden = false;
 
     function update(t: number) {
+      // schedule next frame early so we keep the rAF loop alive even if work takes time
       animateId = requestAnimationFrame(update);
       if (!disableAnimation && program) {
         program.uniforms.uTime.value = t * 0.001;
@@ -285,6 +291,23 @@ export default function Galaxy({
     animateId = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
 
+    function handleVisibility() {
+      if (document.hidden) {
+        // stop rendering when tab is hidden to save CPU/GPU
+        if (animateId != null) {
+          cancelAnimationFrame(animateId);
+          animateId = null;
+          pausedBecauseHidden = true;
+        }
+      } else {
+        if (pausedBecauseHidden) {
+          pausedBecauseHidden = false;
+          if (animateId == null) animateId = requestAnimationFrame(update);
+        }
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility, false);
+
     function handleMouseMove(e: MouseEvent) {
       // Calculate mouse position relative to the container
       const rect = ctn.getBoundingClientRect();
@@ -304,11 +327,10 @@ export default function Galaxy({
       ctn.addEventListener('mousemove', handleMouseMove);
       ctn.addEventListener('mouseleave', handleMouseLeave);
       // also listen on window so interactions still work when other UI elements
-      // overlay the canvas (the canvas may have pointer-events disabled so it
-      // doesn't block clicks). Using window listeners ensures the galaxy still
-      // receives mouse data even when the canvas is behind other elements.
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseout', handleMouseLeave);
+      // overlay the canvas. Use passive listeners where supported to reduce
+      // main-thread work from pointer events.
+      window.addEventListener('mousemove', handleMouseMove, { passive: true } as AddEventListenerOptions);
+      window.addEventListener('mouseout', handleMouseLeave, { passive: true } as AddEventListenerOptions);
     }
 
     return () => {
@@ -320,6 +342,7 @@ export default function Galaxy({
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseout', handleMouseLeave);
       }
+      document.removeEventListener('visibilitychange', handleVisibility, false);
       ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };

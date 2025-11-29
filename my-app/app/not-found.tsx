@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import LiquidEther from "@/components/LiquidEther";
+import dynamic from "next/dynamic";
+const LiquidEther = dynamic(() => import("@/components/LiquidEther"), {
+  ssr: false,
+  loading: () => <div />,
+});
 import { useState } from "react";
 import MagicButton from "@/components/magic-button";
 import { LettersPullUp } from "@/components/Text-Effect";

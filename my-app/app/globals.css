@@ -5,6 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Global animation scale — set to <1 to make animations lighter/faster */
+  --anim-scale: 1;
+
   /* Light mode colors */
   --background: oklch(0.98 0.001 241);
   --foreground: oklch(0.11 0.02 248);
@@ -231,7 +234,7 @@
       transparent 100%
     );
     background-size: 200% 100%;
-    animation: shimmer 3s infinite;
+    animation: shimmer calc(3s * var(--anim-scale)) infinite;
   }
 
   @keyframes shimmer {
@@ -244,7 +247,7 @@
   }
 
   .float-animation {
-    animation: float 3s ease-in-out infinite;
+    animation: float calc(3s * var(--anim-scale)) ease-in-out infinite;
   }
 
   @keyframes float {
@@ -258,7 +261,7 @@
   }
 
   .pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+    animation: pulse-glow calc(2s * var(--anim-scale)) ease-in-out infinite;
   }
 
   @keyframes pulse-glow {
@@ -272,7 +275,7 @@
   }
 
   .slide-in-up {
-    animation: slide-in-up 0.6s ease-out;
+    animation: slide-in-up calc(0.6s * var(--anim-scale)) ease-out;
   }
 
   @keyframes slide-in-up {
@@ -287,7 +290,7 @@
   }
 
   .fade-in-delay {
-    animation: fade-in-delay 0.8s ease-out forwards;
+    animation: fade-in-delay calc(0.8s * var(--anim-scale)) ease-out forwards;
     opacity: 0;
   }
 
@@ -315,7 +318,7 @@
       rgba(255, 255, 255, 0.2),
       transparent
     );
-    animation: shine 3s infinite;
+    animation: shine calc(3s * var(--anim-scale)) infinite;
   }
 
   @keyframes shine {
@@ -329,7 +332,7 @@
 
   /* Click-to-spin animation for the hero logo wrapper */
   .logo-spin-once {
-    animation: logo-spin-360 0.9s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+    animation: logo-spin-360 calc(0.9s * var(--anim-scale)) cubic-bezier(0.25, 0.8, 0.25, 1) both;
   }
 
   @keyframes logo-spin-360 {
@@ -350,7 +353,7 @@
 
   /* Dedicated class for magic button border spin */
   .magic-border-spin {
-    --magic-spin-duration: 4s; /* slower default */
+    --magic-spin-duration: calc(4s * var(--anim-scale)); /* slower default */
     animation: magic-spin var(--magic-spin-duration) linear infinite;
     transform: scale(6);
     transform-origin: center;

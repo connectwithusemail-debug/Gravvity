@@ -329,12 +329,41 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     };
     shell.addEventListener("click", handleClick);
 
-    const initialX =
-      (shell.clientWidth || 0) - ANIMATION_CONFIG.INITIAL_X_OFFSET;
-    const initialY = ANIMATION_CONFIG.INITIAL_Y_OFFSET;
-    tiltEngine.setImmediate(initialX, initialY);
-    tiltEngine.toCenter();
-    tiltEngine.beginInitial(ANIMATION_CONFIG.INITIAL_DURATION);
+    // Delay the initial tilt animation until the card is visible in viewport.
+    // Many profile cards on a page would otherwise each start a requestAnimationFrame
+    // loop at load causing main-thread jank. Use IntersectionObserver to start
+    // the initial animation only when the element is on screen.
+    let io: IntersectionObserver | null = null;
+
+    const startInitial = () => {
+      const initialX = (shell.clientWidth || 0) - ANIMATION_CONFIG.INITIAL_X_OFFSET;
+      const initialY = ANIMATION_CONFIG.INITIAL_Y_OFFSET;
+      tiltEngine.setImmediate(initialX, initialY);
+      tiltEngine.toCenter();
+      tiltEngine.beginInitial(ANIMATION_CONFIG.INITIAL_DURATION);
+      if (io) {
+        io.disconnect();
+        io = null;
+      }
+    };
+
+    if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              startInitial();
+              break;
+            }
+          }
+        },
+        { threshold: 0.25 }
+      );
+      io.observe(shell);
+    } else {
+      // Fallback: start immediately if IntersectionObserver is not available
+      startInitial();
+    }
 
     return () => {
       shell.removeEventListener("pointerenter", pointerEnterHandler);
@@ -342,6 +371,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       shell.removeEventListener("pointerleave", pointerLeaveHandler);
       shell.removeEventListener("click", handleClick);
       window.removeEventListener("deviceorientation", deviceOrientationHandler);
+      if (io) {
+        io.disconnect();
+        io = null;
+      }
       if (enterTimerRef.current) window.clearTimeout(enterTimerRef.current);
       if (leaveRafRef.current) cancelAnimationFrame(leaveRafRef.current);
       tiltEngine.cancel();
