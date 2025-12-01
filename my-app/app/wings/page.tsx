@@ -42,15 +42,30 @@ export default function WingsPage() {
   }, []);
 
   useEffect(() => {
+    // Prefer reduced motion: show elements immediately without animation
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Mount fallback: ensure visibility in case IO is delayed or unsupported
+    wingsRef.current.forEach((ref) => {
+      if (ref) {
+        ref.classList.add('visible');
+      }
+    });
+
+    if (prefersReducedMotion) {
+      // No animations; keep visible and skip IO
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
           }
-        });
+        }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }
+      { threshold: 0.05, rootMargin: '0px 0px -10% 0px' }
     );
 
     wingsRef.current.forEach((ref) => {
