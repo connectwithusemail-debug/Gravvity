@@ -6,13 +6,15 @@ import { wings } from "@/lib/data";
 import Link from "next/link";
 import MagicBorderCard from "@/components/magic-border-card";
 import MagicBorderExact from "@/components/magic-border-exact";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { GradualSpacing } from "@/components/Text-Effect";
 import { useRouter } from "next/navigation";
 
 export default function WingsPage() {
   // Router hook must be called at top-level, not inside effects
   const router = useRouter();
+  const wingsRef = useRef<(HTMLDivElement | null)[]>([]);
+  
   const slug = (s: string) =>
     s
       .toLowerCase()
@@ -39,9 +41,28 @@ export default function WingsPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }
+    );
+
+    wingsRef.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
-      <main className="min-h-screen bg-background" id="wings">
+      <section className="min-h-screen bg-background" id="wings">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header */}
           <div className="text-center mb-16 ">
@@ -69,11 +90,9 @@ export default function WingsPage() {
                   }`}
                 >
                   <div
-                    className={`${index % 2 === 1 ? "md:order-2" : ""} `}
-                    data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
-                    data-aos-duration="800"
-                    data-aos-once="false"
-                    data-aos-anchor-placement="top-bottom"
+                    ref={(el) => { wingsRef.current[index * 2] = el }}
+                    className={`${index % 2 === 1 ? "md:order-2" : ""} wings-animate ${index % 2 === 0 ? "fade-in-right" : "fade-in-left"}`}
+                    style={{ animationDelay: '0ms' }}
                   >
                     <div
                       className="w-full cursor-pointer max-w-3xl mx-auto"
@@ -99,12 +118,9 @@ export default function WingsPage() {
                   </div>
 
                   <div
-                    className={`${index % 2 === 1 ? "md:order-1" : ""} `}
-                    data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
-                    data-aos-duration="800"
-                    data-aos-delay="100"
-                    data-aos-once="false"
-                    data-aos-anchor-placement="top-bottom"
+                    ref={(el) => { wingsRef.current[index * 2 + 1] = el }}
+                    className={`${index % 2 === 1 ? "md:order-1" : ""} wings-animate ${index % 2 === 0 ? "fade-in-left" : "fade-in-right"}`}
+                    style={{ animationDelay: '100ms' }}
                   >
                     <div className="text-5xl mb-4 gap-3 flex justify-center items-center">
                       <span className="mb-3">{wing.icon}</span>
@@ -160,7 +176,7 @@ export default function WingsPage() {
             })}
           </div>
         </div>
-      </main>
+      </section>
     </>
   );
 }
